@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAMLAS - Electronics & Appliances Distributor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        :root {
+            /* Light Theme Colors */
+            --bg-primary: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            --bg-secondary: rgba(255, 255, 255, 0.9);
+            --bg-card: #ffffff;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --text-accent: #2b6cb0;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme Colors */
+            --bg-primary: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            --bg-secondary: rgba(255, 255, 255, 0.05);
+            --bg-card: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+            --text-primary: #ffffff;
+            --text-secondary: #e2e8f0;
+            --text-accent: #4ecdc4;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0 auto;
+            max-width: 1200px;
+            width: 95%;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .header {
+            text-align: center;
+            margin: 2em 0;
+            animation: fadeIn 1s ease-in;
+            flex: 0 0 auto;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+            color: var(--text-primary);
+            text-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .header h2 {
+            font-size: 2em;
+            color: var(--text-accent);
+            margin-bottom: 0.5em;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            padding: 0.5em 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            color: var(--text-primary);
+            box-shadow: var(--shadow);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .theme-toggle i {
+            font-size: 1.2em;
+        }
+
+        .map-container {
+            text-align: center;
+            margin: 2em 0;
+            padding: 1em;
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(4px);
+            flex: 0 0 auto;
+            border: 1px solid var(--border-color);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            max-width: 600px;
+            height: 450px;
+            border-radius: 10px;
+        }
+
+        .main-content {
+            flex: 1 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2em;
+        }
+
+        .category-section {
+            margin: 1em 0;
+            padding: 1.5em;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .category-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(78, 205, 196, 0.1),
+                rgba(78, 205, 196, 0.2),
+                rgba(78, 205, 196, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: glowingGradient 3s linear infinite;
+            pointer-events: none;
+        }
+
+        .category-section:hover::before {
+            animation: glowingGradient 1.5s linear infinite;
+        }
+
+        @keyframes glowingGradient {
+            0% {
+                transform: rotate(45deg) translateY(-100%);
+            }
+            100% {
+                transform: rotate(45deg) translateY(100%);
+            }
+        }
+
+        .category-title {
+            text-align: center;
+            font-size: 1.8em;
+            margin-bottom: 1em;
+            color: var(--text-accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5em;
+            padding: 1em;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            justify-content: center;
+        }
+
+        .category-section:hover .products {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        .product-card {
+            flex: 1 1 250px;
+            max-width: 300px;
+            min-width: 200px;
+            height: 180px;
+            border-radius: 15px;
+            background: var(--bg-card);
+            padding: 1.5em;
+            text-align: center;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .category-section:hover .product-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product-card:nth-child(1) { transition-delay: 0.1s; }
+        .product-card:nth-child(2) { transition-delay: 0.2s; }
+        .product-card:nth-child(3) { transition-delay: 0.3s; }
+        .product-card:nth-child(4) { transition-delay: 0.4s; }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateZ(-1px);
+            transition: 0.5s;
+        }
+
+        .product-card:hover::before {
+            transform: translateZ(0) rotate(45deg);
+        }
+
+        .product-card a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            transition: 0.7s;
+        }
+
+        .product-card:hover a {
+            transform: translateZ(20px);
+            color: var(--text-accent);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1.5em;
+            margin-top: 2em;
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            flex: 0 0 auto;
+            border: 1px solid var(--border-color);
+        }
+
+        .navigation-arrows {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 1em;
+            z-index: 1000;
+        }
+
+        .nav-arrow {
+            width: 50px;
+            height: 50px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            font-size: 1.5em;
+            text-decoration: none;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-arrow:hover {
+            background: var(--text-accent);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .nav-arrow:active {
+            transform: scale(0.95);
+        }
+
+        .nav-arrow.left {
+            transform: rotate(180deg);
+        }
+
+        .nav-arrow.left:hover {
+            transform: rotate(180deg) scale(1.1);
+        }
+
+        .nav-arrow.left:active {
+            transform: rotate(180deg) scale(0.95);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                width: 100%;
+                padding: 0 1em;
+            }
+            .header { margin: 1em 0; }
+            .header h1 { font-size: 1.8em; }
+            .header h2 { font-size: 1.4em; }
+            .map-container { margin: 1em 0; padding: 0.5em; }
+            .map-container iframe { height: 300px; }
+            .category-section { padding: 1em; margin: 0.5em 0; }
+            .category-title { font-size: 1.5em; }
+            .products { gap: 1em; }
+            .product-card { flex: 1 1 140px; height: 150px; padding: 1em; }
+            .product-card a { font-size: 1em; }
+            .navigation-arrows { bottom: 15px; right: 15px; }
+            .nav-arrow { width: 40px; height: 40px; font-size: 1.2em; }
+        }
+        @media (max-width: 480px) { .header h1 { font-size: 1.5em; } .header h2 { font-size: 1.2em; } .product-card { flex: 1 1 100%; height: 120px; } .category-title { font-size: 1.3em; } }
+        @media (max-width: 900px) { .main-content, .products, .products-grid { flex-direction: column !important; gap: 1em !important; } .category-section, .product-card { padding: 1em !important; min-width: 0 !important; max-width: 100% !important; } }
+        @media (max-width: 600px) { .header h1, .header h2 { font-size: 1.5em !important; } .category-title { font-size: 1.1em !important; } .products, .products-grid { gap: 0.5em !important; padding: 0.5em !important; } .product-card { min-width: 0 !important; max-width: 100% !important; height: auto !important; padding: 0.7em !important; } }
+        @media (max-width: 400px) { .header h1, .header h2 { font-size: 1.1em !important; } .category-title { font-size: 0.9em !important; } .product-card { padding: 0.3em !important; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+            <i class="fas fa-moon" id="themeIcon"></i>
+            <span id="themeText">Dark</span>
+        </button>
+        
+        <h2>KAMLAS</h2>
+        <p>Electronics & Appliances Distributor</p>
+        <div style="margin-top:10px;text-align:center">
+            <% if (!currentUser) { %>
+                <a href="/login" style="color:var(--text-accent);margin-right:12px;text-decoration:none">Login</a>
+                <a href="/signup" style="color:var(--text-accent);text-decoration:none">Sign Up</a>
+            <% } else { %>
+                <span>Hello, <%= currentUser.name %></span>
+                <form method="POST" action="/logout" style="display:inline-block;margin-left:12px">
+                    <button type="submit" style="background:var(--text-accent);border:none;padding:6px 10px;border-radius:6px;cursor:pointer;color:white">Logout</button>
+                </form>
+            <% } %>
+        </div>
+    </header>
+
+    <div class="map-container">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3734055.3906875625!2d78.42283371394795!3d23.941392016169385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a28dd08aa62058b%3A0xf9fa726004d30997!2sKamlas(kailash%20radio%20T.V%20centre)!5e0!3m2!1sen!2sin!4v1673286839815!5m2!1sen!2sin" 
+            width="600" 
+            height="450" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="KAMLAS Location Map">
+        </iframe>
+    </div>
+
+    <!-- Zebronics Category -->
+    <section class="category-section">
+        <h2 class="category-title">Zebronics</h2>
+        <nav class="products">
+            <div class="product-card">
+                <a href="zebronics/it.ejs">
+                    <span>IT PRODUCTS</span>
+                </a>
+            </div>
+            <div class="product-card">
+                <a href="zebronics/tv.ejs">
+                    <span>TELEVISION</span>
+                </a>
+            </div>
+            <div class="product-card">
+                <a href="zebronics/speakers.ejs">
+                    <span>SPEAKERS</span>
+                </a>
+            </div>
+            <div class="product-card">
+                <a href="zebronics/ac.ejs">
+                    <span>A.C</span>
+                </a>
+            </div>
+        </nav>
+    </section>
+
+    <!-- ZEM Category -->
+    <section class="category-section">
+        <h2 class="category-title">Gem</h2>
+        <nav class="products">
+            <div class="product-card">
+                <a href="GEM/fridge.ejs">
+                    <span>FRIDGE</span>
+                </a>
+            </div>
+            <div class="product-card">
+                <a href="GEM/tv.ejs">
+                    <span>TELEVISION</span>
+                </a>
+            </div>
+            <div class="product-card">
+                <a href="GEM/wm.ejs">
+                    <span>WASHING MACHINE</span>
+                </a>
+            </div>
+            <div class="product-card">
+                <a href="GEM/ac.ejs">
+                    <span>A.C</span>
+                </a>
+            </div>
+        </nav>
+    </section>
+
+    <!-- Takara Category -->
+    <section class="category-section">
+        <h2 class="category-title">Takara</h2>
+        <nav class="products">
+            <div class="product-card">
+                <a href="TAKARA/fridge.ejs">
+                    <span>FRIDGE</span>
+                </a>
+            </div>
+            <div class="product-card">
+                <a href="TAKARA/tv.ejs">
+                    <span>TELEVISION</span>
+                </a>
+            </div>
+            <div class="product-card">
+                <a href="TAKARA/wm.ejs">
+                    <span>WASHING MACHINE</span>
+                </a>
+            </div>
+            <div class="product-card">
+                <a href="TAKARA/ac.ejs">
+                    <span>A.C</span>
+                </a>
+            </div>
+        </nav>
+    </section>
+
+    <meta name="description" content="Kamlas invitation card and product showcase">
+    <meta name="keywords" content="Kamlas, invitation, fridge, TV, washing machine, AC, crockery">
+
+    <footer class="footer">
+        <p>These are the companies we deal with:</p>
+        <p style="margin-top: 10px; font-size: 0.9em; color: var(--text-secondary);">
+            © 2024 KAMLAS - Electronics & Appliances Distributor. All rights reserved.
+        </p>
+    </footer>
+    <div class="navigation-arrows">
+        <a href="/crockery.ejs" class="nav-arrow">→</a>
+    </div>
+
+    <script>
+        // Theme Management
+        class ThemeManager {
+            constructor() {
+                this.currentTheme = localStorage.getItem('theme') || 'light';
+                this.init();
+            }
+
+            init() {
+                this.applyTheme(this.currentTheme);
+                this.setupEventListeners();
+            }
+
+            applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                this.updateThemeToggle(theme);
+                localStorage.setItem('theme', theme);
+            }
+
+            updateThemeToggle(theme) {
+                const themeIcon = document.getElementById('themeIcon');
+                const themeText = document.getElementById('themeText');
+                
+                if (theme === 'dark') {
+                    themeIcon.className = 'fas fa-sun';
+                    themeText.textContent = 'Light';
+                } else {
+                    themeIcon.className = 'fas fa-moon';
+                    themeText.textContent = 'Dark';
+                }
+            }
+
+            toggleTheme() {
+                this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+                this.applyTheme(this.currentTheme);
+            }
+
+            setupEventListeners() {
+                const themeToggle = document.getElementById('themeToggle');
+                themeToggle.addEventListener('click', () => this.toggleTheme());
+            }
+        }
+
+        // Initialize theme manager when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ThemeManager();
+        });
+
+        // Smooth scrolling for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add loading animation for product cards
+        window.addEventListener('load', () => {
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

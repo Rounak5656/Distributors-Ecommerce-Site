@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Fridge - KAMLAS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0 auto;
+            max-width: 1200px;
+            width: 95%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            text-align: center;
+            margin: 2em 0;
+            animation: fadeIn 1s ease-in;
+            flex: 0 0 auto;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        .wishlist-link {
+            position: absolute;
+            top: 2em;
+            right: 2em;
+            background: #4ecdc4;
+            color: #fff;
+            padding: 0.5em 1.2em;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: background 0.3s;
+        }
+        .wishlist-link:hover {
+            background: #38b2ac;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2em;
+            padding: 2em;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .product-card {
+            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s;
+            position: relative;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 16px 32px rgba(78,205,196,0.15);
+        }
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .wishlist-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(30,30,30,0.9);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #4ecdc4;
+            font-size: 1.2em;
+        }
+        .wishlist-btn.active {
+            color: #e74c3c;
+        }
+        .wishlist-btn:hover {
+            background: #232323;
+            color: #e74c3c;
+        }
+        .product-info {
+            padding: 1.2em;
+        }
+        .product-title {
+            font-size: 1.1em;
+            color: #4ecdc4;
+            margin-bottom: 0.5em;
+            text-shadow: 0 0 6px rgba(78,205,196,0.15);
+        }
+        .product-description {
+            color: #b2f7ef;
+            margin: 0.5em 0;
+            font-size: 0.95em;
+        }
+        .min-order {
+            color: #e74c3c;
+            font-size: 0.95em;
+            margin: 0.5em 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            margin: 0.5em 0;
+        }
+        .quantity-btn {
+            background: #4ecdc4;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .quantity-btn:hover {
+            background: #38b2ac;
+        }
+        .add-to-cart {
+            background: #4ecdc4;
+            color: #1a1a1a;
+            border: none;
+            padding: 0.7em 1.2em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+            width: 100%;
+            margin-top: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5em;
+            font-weight: 600;
+        }
+        .add-to-cart:hover {
+            background: #38b2ac;
+            color: #fff;
+        }
+        .add-to-cart:disabled {
+            background: #95a5a6;
+            color: #fff;
+            cursor: not-allowed;
+        }
+        @media (max-width: 900px) {
+            .products-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1em !important;
+                padding: 1em !important;
+            }
+            .header {
+                margin: 1em 0 !important;
+            }
+        }
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.3em !important;
+            }
+            .product-card {
+                min-width: 0 !important;
+                max-width: 100% !important;
+                padding: 0.7em !important;
+            }
+            .products-grid {
+                gap: 0.5em !important;
+                padding: 0.5em !important;
+            }
+        }
+        @media (max-width: 400px) {
+            .header h1 {
+                font-size: 1em !important;
+            }
+            .product-card {
+                padding: 0.3em !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Order Fridge</h1>
+        <a href="/wishlist" class="wishlist-link"><i class="fa fa-heart"></i> My Wishlist</a>
+    </div>
+    <div class="products-grid">
+        <!-- Demo Fridge Products -->
+        <div class="product-card" data-id="fridge1">
+            <div class="product-image">
+                <img src="/public/images/deli glassware.png" alt="Fridge 1">
+                <button class="wishlist-btn" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
+            </div>
+            <div class="product-info">
+                <div class="product-title">Single Door Fridge</div>
+                <div class="product-description">Energy efficient, 190L, 5 Star Rating</div>
+                <div class="min-order"><i class="fa fa-box"></i> Minimum Order: <span class="min">2</span> units</div>
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="changeQty(this, -1)">-</button>
+                    <span class="qty">2</span>
+                    <button class="quantity-btn" onclick="changeQty(this, 1)">+</button>
+                </div>
+                <button class="add-to-cart">Order Now</button>
+            </div>
+        </div>
+        <div class="product-card" data-id="fridge2">
+            <div class="product-image">
+                <img src="/public/images/deli glassware2.png" alt="Fridge 2">
+                <button class="wishlist-btn" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
+            </div>
+            <div class="product-info">
+                <div class="product-title">Double Door Fridge</div>
+                <div class="product-description">Frost Free, 260L, Inverter Technology</div>
+                <div class="min-order"><i class="fa fa-box"></i> Minimum Order: <span class="min">1</span> unit</div>
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="changeQty(this, -1)">-</button>
+                    <span class="qty">1</span>
+                    <button class="quantity-btn" onclick="changeQty(this, 1)">+</button>
+                </div>
+                <button class="add-to-cart">Order Now</button>
+            </div>
+        </div>
+        <!-- Add more products as needed -->
+    </div>
+    <script>
+        // Quantity Control
+        function changeQty(btn, delta) {
+            const qtySpan = btn.parentElement.querySelector('.qty');
+            const min = parseInt(btn.parentElement.parentElement.querySelector('.min').innerText);
+            let qty = parseInt(qtySpan.innerText);
+            qty += delta;
+            if(qty < min) qty = min;
+            qtySpan.innerText = qty;
+        }
+        // Wishlist Feature (shared localStorage)
+        document.querySelectorAll('.wishlist-btn').forEach(btn => {
+            const card = btn.closest('.product-card');
+            const id = card.getAttribute('data-id');
+            // If already in wishlist, mark active
+            if(JSON.parse(localStorage.getItem('wishlist')||'[]').includes(id)) {
+                btn.classList.add('active');
+            }
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                let wishlist = JSON.parse(localStorage.getItem('wishlist')||'[]');
+                if(wishlist.includes(id)) {
+                    wishlist = wishlist.filter(x=>x!==id);
+                    btn.classList.remove('active');
+                } else {
+                    wishlist.push(id);
+                    btn.classList.add('active');
+                }
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            });
+        });
+        // Add to cart/Order
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = btn.closest('.product-card');
+                const title = card.querySelector('.product-title').innerText;
+                const qty = card.querySelector('.qty').innerText;
+                alert(`Ordered ${qty} unit(s) of ${title}!`);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zebronics IT Products - KAMLAS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { margin: 0 auto; max-width: 1200px; width: 95%; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); color: #fff; font-family: 'Poppins', sans-serif; line-height: 1.6; position: relative; min-height: 100vh; display: flex; flex-direction: column; }
+        .header { text-align: center; margin: 2em 0; animation: fadeIn 1s ease-in; flex: 0 0 auto; position: relative; }
+        .header h1 { font-size: 2.2em; margin-bottom: 0.2em; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .header p { color: #b2f7ef; font-size: 0.95em; }
+        .breadcrumbs { text-align: center; margin-top: .5em; color: #9adbd7; font-size: .85em; }
+        .section-title { margin: 1.2em 0 .3em; padding-left: .4em; border-left: 4px solid #4ecdc4; color: #4ecdc4; font-size: 1.2em; letter-spacing: .5px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.4em; padding: 1.4em; max-width: 1200px; margin: 0 auto; }
+        .product-card { background: linear-gradient(145deg, #2a2a2a, #1a1a1a); border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: transform 0.3s ease, box-shadow 0.3s; position: relative; color: #fff; display: flex; flex-direction: column; align-items: stretch; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 16px 32px rgba(78,205,196,0.15); }
+        .badge { position: absolute; top: 12px; left: 12px; background: #4ecdc4; color: #1a1a1a; font-weight: 700; padding: .25em .6em; border-radius: 6px; font-size: .75em; }
+        .product-image { width: 100%; height: 200px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; }
+        .product-image img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .product-info { padding: 1.1em; display: flex; flex-direction: column; gap: .5em; }
+        .product-title { font-size: 1.05em; color: #4ecdc4; margin: 0; text-shadow: 0 0 6px rgba(78,205,196,0.15); }
+        .product-description { color: #d7f9f6; margin: 0; font-size: 0.9em; min-height: 40px; }
+        .spec-list { list-style: none; margin: .2em 0 0; padding: 0; color: #bcefee; font-size: .85em; display: grid; grid-template-columns: 1fr 1fr; gap: .3em .8em; }
+        .spec-list li i { color: #4ecdc4; margin-right: .4em; }
+        .cta-row { display: flex; align-items: center; gap: .6em; margin-top: .5em; }
+        .price { color: #fff; font-weight: 700; letter-spacing: .5px; }
+        .add-to-cart { background: #4ecdc4; color: #1a1a1a; border: none; padding: 0.6em 1em; border-radius: 10px; cursor: pointer; transition: background 0.3s, color 0.3s; font-weight: 700; }
+        .add-to-cart:hover { background: #38b2ac; color: #fff; }
+        @media (max-width: 900px) { .products-grid { grid-template-columns: 1fr !important; gap: 1em !important; padding: 1em !important; } .header { margin: 1em 0 !important; } }
+        @media (max-width: 600px) { .header h1 { font-size: 1.3em !important; } .product-card { min-width: 0 !important; max-width: 100% !important; } .products-grid { gap: 0.8em !important; padding: 0.8em !important; } }
+        @media (max-width: 400px) { .header h1 { font-size: 1em !important; } .product-card { padding: 0 !important; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Zebronics IT Products</h1>
+        <p>Explore keyboards, mice, monitors, webcams, UPS, and more for your setup.</p>
+        <div class="breadcrumbs">Home / Zebronics / IT Products</div>
+    </div>
+
+    <h2 class="section-title">Keyboards & Mice</h2>
+    <div class="products-grid">
+        <div class="product-card" data-id="zeb-key-rgb-mech">
+            <span class="badge">Mechanical</span>
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop" alt="RGB Mechanical Keyboard">
+            </div>
+            <div class="product-info">
+                <div class="product-title">RGB Mechanical Keyboard</div>
+                <p class="product-description">Outemu switches, N‑key rollover, per‑key RGB</p>
+                <ul class="spec-list">
+                    <li><i class="fa fa-keyboard"></i> Hot‑swappable</li>
+                    <li><i class="fa fa-plug"></i> USB‑C</li>
+                    <li><i class="fa fa-lightbulb"></i> 18 modes</li>
+                    <li><i class="fa fa-shield"></i> Metal top</li>
+                </ul>
+                <div class="cta-row">
+                    <span class="price">₹3,499</span>
+                    <button class="add-to-cart">Enquire</button>
+                </div>
+            </div>
+        </div>
+        <div class="product-card" data-id="zeb-mouse-wireless">
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1585079542156-2755d9c8affd?q=80&w=1200&auto=format&fit=crop" alt="Wireless Mouse">
+            </div>
+            <div class="product-info">
+                <div class="product-title">2.4G Wireless Mouse</div>
+                <p class="product-description">Silent clicks, 1600 DPI, ergonomic design</p>
+                <ul class="spec-list">
+                    <li><i class="fa fa-wifi"></i> 2.4GHz</li>
+                    <li><i class="fa fa-battery-half"></i> 12‑month battery</li>
+                    <li><i class="fa fa-arrows-alt"></i> 3 DPI modes</li>
+                    <li><i class="fa fa-hand-pointer"></i> Ambidextrous</li>
+                </ul>
+                <div class="cta-row">
+                    <span class="price">₹599</span>
+                    <button class="add-to-cart">Enquire</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Monitors</h2>
+    <div class="products-grid">
+        <div class="product-card" data-id="zeb-monitor-27-ips">
+            <span class="badge">IPS 75Hz</span>
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1587831638859-4c0b0e06a5b0?q=80&w=1200&auto=format&fit=crop" alt="27 inch IPS Monitor">
+            </div>
+            <div class="product-info">
+                <div class="product-title">27" IPS Monitor</div>
+                <p class="product-description">75Hz refresh, ultra‑slim bezels, HDMI + VGA</p>
+                <ul class="spec-list">
+                    <li><i class="fa fa-tv"></i> 1920×1080</li>
+                    <li><i class="fa fa-plug"></i> HDMI, VGA</li>
+                    <li><i class="fa fa-adjust"></i> Eye‑care</li>
+                    <li><i class="fa fa-arrows-alt"></i> Tilt stand</li>
+                </ul>
+                <div class="cta-row">
+                    <span class="price">₹9,990</span>
+                    <button class="add-to-cart">Enquire</button>
+                </div>
+            </div>
+        </div>
+        <div class="product-card" data-id="zeb-monitor-24-curved">
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1545231027-637d2f6210f4?q=80&w=1200&auto=format&fit=crop" alt="24 inch Curved Monitor">
+            </div>
+            <div class="product-info">
+                <div class="product-title">24" Curved Monitor</div>
+                <p class="product-description">1800R curve, VA panel, gaming ready</p>
+                <ul class="spec-list">
+                    <li><i class="fa fa-bolt"></i> 4ms</li>
+                    <li><i class="fa fa-gamepad"></i> Game mode</li>
+                    <li><i class="fa fa-plug"></i> HDMI</li>
+                    <li><i class="fa fa-adjust"></i> Low blue light</li>
+                </ul>
+                <div class="cta-row">
+                    <span class="price">₹8,990</span>
+                    <button class="add-to-cart">Enquire</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Webcams</h2>
+    <div class="products-grid">
+        <div class="product-card" data-id="zeb-webcam-1080p">
+            <span class="badge">1080p</span>
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1589187778525-343e3cb20512?q=80&w=1200&auto=format&fit=crop" alt="HD Webcam">
+            </div>
+            <div class="product-info">
+                <div class="product-title">Full HD USB Webcam</div>
+                <p class="product-description">Dual mic, privacy shutter, auto light correction</p>
+                <ul class="spec-list">
+                    <li><i class="fa fa-video"></i> 1080p30</li>
+                    <li><i class="fa fa-microphone"></i> Noise reduction</li>
+                    <li><i class="fa fa-usb"></i> Plug & play</li>
+                    <li><i class="fa fa-laptop"></i> Tripod mount</li>
+                </ul>
+                <div class="cta-row">
+                    <span class="price">₹1,499</span>
+                    <button class="add-to-cart">Enquire</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Power & UPS</h2>
+    <div class="products-grid">
+        <div class="product-card" data-id="zeb-ups-600va">
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop" alt="600VA UPS">
+            </div>
+            <div class="product-info">
+                <div class="product-title">600VA UPS</div>
+                <p class="product-description">Surge protection, audible alarms, LED indicators</p>
+                <ul class="spec-list">
+                    <li><i class="fa fa-bolt"></i> 600VA/360W</li>
+                    <li><i class="fa fa-plug"></i> 3 output</li>
+                    <li><i class="fa fa-battery-three-quarters"></i> 10‑15 min</li>
+                    <li><i class="fa fa-shield-alt"></i> Overload protect</li>
+                </ul>
+                <div class="cta-row">
+                    <span class="price">₹2,999</span>
+                    <button class="add-to-cart">Enquire</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = btn.closest('.product-card');
+                const title = card.querySelector('.product-title').innerText;
+                alert(`Requested details for ${title}. We'll get back to you!`);
+            });
+        });
+    </script>
+</body>
+</html>

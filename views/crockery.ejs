@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAMLAS - Wholesale Crockery</title>
+    <meta name="description" content="KAMLAS - Wholesale crockery distributor. Explore dinner sets, mugs, plates, bowls with MOQ and bulk pricing.">
+    <meta property="og:title" content="KAMLAS - Wholesale Crockery">
+    <meta property="og:description" content="Wholesale crockery: dinner sets, mugs, plates, bowls. Request quotes and bulk orders.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/stylesheets/crockery.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <h1>KAMLAS</h1>
+            <p>Wholesale Crockery Distribution</p>
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn" id="wishlistBadge" aria-label="Wishlist">
+                <i class="fas fa-heart"></i>
+                <span id="wishlistCount">0</span>
+            </button>
+            <button class="icon-btn" id="cartBadge" aria-label="Cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartCount">0</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="search-bar">
+        <input type="search" id="productSearch" placeholder="Search products..." aria-label="Search products">
+    </div>
+
+    <nav class="categories">
+        <button class="category-btn" data-category="all">All Items</button>
+        <button class="category-btn" data-category="dinner-sets">Dinner Sets</button>
+        <button class="category-btn" data-category="cups-mugs">Cups & Mugs</button>
+        <button class="category-btn" data-category="plates">Plates</button>
+        <button class="category-btn" data-category="bowls">Bowls</button>
+        <button class="category-btn" data-category="special">Special Offers</button>
+    </nav>
+
+    <div class="products-grid" id="productsGrid">
+        <div class="product-card" data-category="dinner-sets" data-title="Glass Juice Cup with Lid and Straw">
+            <div class="product-image">
+                <img src="/images/deli glassware.png" alt="Premium Dinner Set" loading="lazy" decoding="async" width="600" height="600">
+                <img src="/images/deli glassware2.png" alt="Premium Dinner Set" loading="lazy" decoding="async" width="600" height="600">
+                <img src="/images/deli glswr3.png" alt="Premium Dinner Set" loading="lazy" decoding="async" width="600" height="600">
+                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            <div class="product-info">
+                <h3 class="product-title">Glass Juice Cup with Lid and Straw</h3>
+                <p class="product-description">Elegant 24-piece dinner set with modern design</p>
+                <p class="min-order"><i class="fas fa-box"></i> Minimum Order: 10 sets</p>
+                <button class="add-to-cart" onclick="addToCart(this)">
+                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+                <button class="whatsapp-cta" data-phone="+917400944474">
+                    <i class="fab fa-whatsapp"></i> Get Quote on WhatsApp
+                </button>
+            </div>
+        </div>
+
+        <div class="product-card" data-category="cups-mugs" data-title="Ceramic Coffee Mugs">
+            <div class="product-image">
+                <img src="/images/deli glassware2.png" alt="Premium Dinner Set" loading="lazy" decoding="async" width="600" height="600">
+                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            <div class="product-info">
+                <h3 class="product-title">Ceramic Coffee Mugs</h3>
+                <p class="product-description">Set of 4 ceramic mugs with handle</p>
+                <p class="min-order"><i class="fas fa-box"></i> Minimum Order: 25 sets</p>
+                <button class="add-to-cart" onclick="addToCart(this)">
+                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+                <button class="whatsapp-cta" data-phone="+917400944474">
+                    <i class="fab fa-whatsapp"></i> Get Quote on WhatsApp
+                </button>
+            </div>
+        </div>
+
+        <div class="product-card" data-category="plates" data-title="Melamine Plates">
+            <div class="product-image">
+                <img src="/images/deli glswr3.png" alt="Premium Dinner Set" loading="lazy" decoding="async" width="600" height="600">
+                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            <div class="product-info">
+                <h3 class="product-title">Melamine Plates</h3>
+                <p class="product-description">Set of 6 unbreakable melamine plates</p>
+                <p class="min-order"><i class="fas fa-box"></i> Minimum Order: 20 sets</p>
+                <button class="add-to-cart" onclick="addToCart(this)">
+                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+                <button class="whatsapp-cta" data-phone="+917400944474">
+                    <i class="fab fa-whatsapp"></i> Get Quote on WhatsApp
+                </button>
+            </div>
+        </div>
+
+        <div class="product-card" data-category="bowls" data-title="Soup Bowls">
+            <div class="product-image">
+                <div class="placeholder">Add Product Image</div>
+                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            <div class="product-info">
+                <h3 class="product-title">Soup Bowls</h3>
+                <p class="product-description">Set of 4 ceramic soup bowls</p>
+                <p class="min-order"><i class="fas fa-box"></i> Minimum Order: 15 sets</p>
+                <button class="add-to-cart" onclick="addToCart(this)">
+                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+                <button class="whatsapp-cta" data-phone="+917400944474">
+                    <i class="fab fa-whatsapp"></i> Get Quote on WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation-arrows">
+        <a href="/" class="nav-arrow left">→</a>
+    </div>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": [
+        {
+          "@type": "Product",
+          "name": "Glass Juice Cup with Lid and Straw",
+          "image": [
+            "/images/deli glassware.png",
+            "/images/deli glassware2.png",
+            "/images/deli glswr3.png"
+          ]
+        },
+        {
+          "@type": "Product",
+          "name": "Ceramic Coffee Mugs",
+          "image": [
+            "/images/deli glassware2.png"
+          ]
+        },
+        {
+          "@type": "Product",
+          "name": "Melamine Plates",
+          "image": [
+            "/images/deli glswr3.png"
+          ]
+        },
+        {
+          "@type": "Product",
+          "name": "Soup Bowls"
+        }
+      ]
+    }
+    </script>
+    <script src="/javascripts/crockery.js"></script>
+</body>
+</html>

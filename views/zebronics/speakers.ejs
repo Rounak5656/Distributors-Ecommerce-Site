@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zebronics Speakers - KAMLAS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { margin: 0 auto; max-width: 1200px; width: 95%; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); color: #fff; font-family: 'Poppins', sans-serif; line-height: 1.6; position: relative; min-height: 100vh; display: flex; flex-direction: column; }
+        .header { text-align: center; margin: 2em 0; animation: fadeIn 1s ease-in; flex: 0 0 auto; position: relative; }
+        .header h1 { font-size: 2.2em; margin-bottom: 0.2em; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .header p { color: #b2f7ef; font-size: 0.95em; }
+        .breadcrumbs { text-align: center; margin-top: .5em; color: #9adbd7; font-size: .85em; }
+        .section-title { margin: 1.2em 0 .3em; padding-left: .4em; border-left: 4px solid #4ecdc4; color: #4ecdc4; font-size: 1.2em; letter-spacing: .5px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.4em; padding: 1.4em; max-width: 1200px; margin: 0 auto; }
+        .product-card { background: linear-gradient(145deg, #2a2a2a, #1a1a1a); border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: transform 0.3s ease, box-shadow 0.3s; position: relative; color: #fff; display: flex; flex-direction: column; align-items: stretch; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 16px 32px rgba(78,205,196,0.15); }
+        .badge { position: absolute; top: 12px; left: 12px; background: #4ecdc4; color: #1a1a1a; font-weight: 700; padding: .25em .6em; border-radius: 6px; font-size: .75em; }
+        .product-image { width: 100%; height: 200px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; }
+        .product-image img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .product-info { padding: 1.1em; display: flex; flex-direction: column; gap: .5em; }
+        .product-title { font-size: 1.05em; color: #4ecdc4; margin: 0; text-shadow: 0 0 6px rgba(78,205,196,0.15); }
+        .product-description { color: #d7f9f6; margin: 0; font-size: 0.9em; min-height: 40px; }
+        .spec-list { list-style: none; margin: .2em 0 0; padding: 0; color: #bcefee; font-size: .85em; display: grid; grid-template-columns: 1fr 1fr; gap: .3em .8em; }
+        .spec-list li i { color: #4ecdc4; margin-right: .4em; }
+        .cta-row { display: flex; align-items: center; gap: .6em; margin-top: .5em; }
+        .price { color: #fff; font-weight: 700; letter-spacing: .5px; }
+        .add-to-cart { background: #4ecdc4; color: #1a1a1a; border: none; padding: 0.6em 1em; border-radius: 10px; cursor: pointer; transition: background 0.3s, color 0.3s; font-weight: 700; }
+        .add-to-cart:hover { background: #38b2ac; color: #fff; }
+        @media (max-width: 900px) { .products-grid { grid-template-columns: 1fr !important; gap: 1em !important; padding: 1em !important; } .header { margin: 1em 0 !important; } }
+        @media (max-width: 600px) { .header h1 { font-size: 1.3em !important; } .product-card { min-width: 0 !important; max-width: 100% !important; } .products-grid { gap: 0.8em !important; padding: 0.8em !important; } }
+        @media (max-width: 400px) { .header h1 { font-size: 1em !important; } .product-card { padding: 0 !important; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Zebronics Speakers</h1>
+        <p>Portable speakers, soundbars, and party speakers with powerful sound.</p>
+        <div class="breadcrumbs">Home / Zebronics / Speakers</div>
+    </div>
+
+    <h2 class="section-title">Portable Bluetooth Speakers</h2>
+    <div class="products-grid">
+        <div class="product-card" data-id="zeb-bt-mini">
+            <span class="badge">Compact</span>
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1601933470928-c1d1e1a26fa2?q=80&w=1200&auto=format&fit=crop" alt="Mini Bluetooth Speaker">
+            </div>
+            <div class="product-info">
+                <div class="product-title">Mini Bluetooth Speaker</div>
+                <p class="product-description">Portable design, up to 10h playback, IPX5 splash proof</p>
+                <ul class="spec-list">
+                    <li><i class="fa fa-battery-half"></i> 10h backup</li>
+                    <li><i class="fa fa-broadcast-tower"></i> BT 5.0</li>
+                    <li><i class="fa fa-water"></i> IPX5</li>
+                    <li><i class="fa fa-usb"></i> Type‑C</li>
+                </ul>
+                <div class="cta-row">
+                    <span class="price">₹1,299</span>
+                    <button class="add-to-cart">Enquire</button>
+                </div>
+            </div>
+        </div>
+        <div class="product-card" data-id="zeb-bt-20w">
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1595688633475-6f82f59468b8?q=80&w=1200&auto=format&fit=crop" alt="20W Bluetooth Speaker">
+            </div>
+            <div class="product-info">
+                <div class="product-title">20W Bluetooth Speaker</div>
+                <p class="product-description">Dual drivers, deep bass, TWS pairing</p>
+                <ul class="spec-list">
+                    <li><i class="fa fa-music"></i> 20W RMS</li>
+                    <li><i class="fa fa-link"></i> TWS mode</li>
+                    <li><i class="fa fa-battery-three-quarters"></i> 12h</li>
+                    <li><i class="fa fa-microphone"></i> Voice assist</li>
+                </ul>
+                <div class="cta-row">
+                    <span class="price">₹2,499</span>
+                    <button class="add-to-cart">Enquire</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Soundbars</h2>
+    <div class="products-grid">
+        <div class="product-card" data-id="zeb-bar-1000">
+            <span class="badge">Dolby Audio</span>
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1602762922511-3b68aaedbb29?q=80&w=1200&auto=format&fit=crop" alt="Soundbar with Subwoofer">
+            </div>
+            <div class="product-info">
+                <div class="product-title">Soundbar with Wireless Subwoofer</div>
+                <p class="product-description">240W peak, HDMI ARC, BT 5.0, wall mountable</p>
+                <ul class="spec-list">
+                    <li><i class="fa fa-volume-up"></i> 240W</li>
+                    <li><i class="fa fa-plug"></i> HDMI ARC</li>
+                    <li><i class="fa fa-broadcast-tower"></i> BT 5.0</li>
+                    <li><i class="fa fa-sliders-h"></i> EQ modes</li>
+                </ul>
+                <div class="cta-row">
+                    <span class="price">₹7,999</span>
+                    <button class="add-to-cart">Enquire</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Party Speakers</h2>
+    <div class="products-grid">
+        <div class="product-card" data-id="zeb-party-woofer">
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1606229365485-93f8f82623b1?q=80&w=1200&auto=format&fit=crop" alt="Party Speaker">
+            </div>
+            <div class="product-info">
+                <div class="product-title">Trolley Party Speaker</div>
+                <p class="product-description">RGB lights, karaoke mic, USB/BT/FM/Aux</p>
+                <ul class="spec-list">
+                    <li><i class="fa fa-microphone"></i> Wireless mic</li>
+                    <li><i class="fa fa-lightbulb"></i> RGB LEDs</li>
+                    <li><i class="fa fa-usb"></i> USB/SD</li>
+                    <li><i class="fa fa-battery-half"></i> Long backup</li>
+                </ul>
+                <div class="cta-row">
+                    <span class="price">₹5,999</span>
+                    <button class="add-to-cart">Enquire</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = btn.closest('.product-card');
+                const title = card.querySelector('.product-title').innerText;
+                alert(`Requested details for ${title}. We'll get back to you!`);
+            });
+        });
+    </script>
+</body>
+</html>
