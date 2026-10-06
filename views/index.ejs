@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KAMLAS - Electronics & Appliances Distributor</title>
+    <title>Kailash Electronics - Electronics & Appliances Distributor</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="/javascripts/theme.js"></script>
     <style>
         :root {
             /* Light Theme Colors */
@@ -53,6 +55,13 @@
             display: flex;
             flex-direction: column;
             transition: all 0.3s ease;
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-accent);
         }
 
         .header {
@@ -359,7 +368,7 @@
             <span id="themeText">Dark</span>
         </button>
         
-        <h2>KAMLAS</h2>
+        <h2 class="brand-name">Kailash Electronics</h2>
         <p>Electronics & Appliances Distributor</p>
         <div style="margin-top:10px;text-align:center">
             <% if (!currentUser) { %>
@@ -376,14 +385,14 @@
 
     <div class="map-container">
         <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3734055.3906875625!2d78.42283371394795!3d23.941392016169385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a28dd08aa62058b%3A0xf9fa726004d30997!2sKamlas(kailash%20radio%20T.V%20centre)!5e0!3m2!1sen!2sin!4v1673286839815!5m2!1sen!2sin" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3734055.3906875625!2d78.42283371394795!3d23.941392016169385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a28dd08aa62058b%3A0xf9fa726004d30997!2sKailash%20Electronics!5e0!3m2!1sen!2sin!4v1673286839815!5m2!1sen!2sin" 
             width="600" 
             height="450" 
             style="border:0;" 
             allowfullscreen="" 
             loading="lazy" 
             referrerpolicy="no-referrer-when-downgrade"
-            title="KAMLAS Location Map">
+            title="Kailash Electronics Location Map">
         </iframe>
     </div>
 
@@ -414,7 +423,7 @@
         </nav>
     </section>
 
-    <!-- ZEM Category -->
+    <!-- GEM Category -->
     <section class="category-section">
         <h2 class="category-title">Gem</h2>
         <nav class="products">
@@ -435,6 +444,33 @@
             </div>
             <div class="product-card">
                 <a href="GEM/ac.ejs">
+                    <span>A.C</span>
+                </a>
+            </div>
+        </nav>
+    </section>
+
+    <!-- Intex Category -->
+    <section class="category-section">
+        <h2 class="category-title">Intex</h2>
+        <nav class="products">
+            <div class="product-card">
+                <a href="/INTEX/fridge">
+                    <span>FRIDGE</span>
+                </a>
+            </div>
+            <div class="product-card">
+                <a href="/INTEX/tv">
+                    <span>TELEVISION</span>
+                </a>
+            </div>
+            <div class="product-card">
+                <a href="/INTEX/wm">
+                    <span>WASHING MACHINE</span>
+                </a>
+            </div>
+            <div class="product-card">
+                <a href="/INTEX/ac">
                     <span>A.C</span>
                 </a>
             </div>
@@ -468,13 +504,13 @@
         </nav>
     </section>
 
-    <meta name="description" content="Kamlas invitation card and product showcase">
-    <meta name="keywords" content="Kamlas, invitation, fridge, TV, washing machine, AC, crockery">
+    <meta name="description" content="Kailash Electronics invitation card and product showcase">
+    <meta name="keywords" content="Kailash Electronics, invitation, fridge, TV, washing machine, AC, crockery">
 
     <footer class="footer">
         <p>These are the companies we deal with:</p>
         <p style="margin-top: 10px; font-size: 0.9em; color: var(--text-secondary);">
-            © 2024 KAMLAS - Electronics & Appliances Distributor. All rights reserved.
+            © 2024 Kailash Electronics - Electronics & Appliances Distributor. All rights reserved.
         </p>
     </footer>
     <div class="navigation-arrows">
@@ -482,53 +518,6 @@
     </div>
 
     <script>
-        // Theme Management
-        class ThemeManager {
-            constructor() {
-                this.currentTheme = localStorage.getItem('theme') || 'light';
-                this.init();
-            }
-
-            init() {
-                this.applyTheme(this.currentTheme);
-                this.setupEventListeners();
-            }
-
-            applyTheme(theme) {
-                document.documentElement.setAttribute('data-theme', theme);
-                this.updateThemeToggle(theme);
-                localStorage.setItem('theme', theme);
-            }
-
-            updateThemeToggle(theme) {
-                const themeIcon = document.getElementById('themeIcon');
-                const themeText = document.getElementById('themeText');
-                
-                if (theme === 'dark') {
-                    themeIcon.className = 'fas fa-sun';
-                    themeText.textContent = 'Light';
-                } else {
-                    themeIcon.className = 'fas fa-moon';
-                    themeText.textContent = 'Dark';
-                }
-            }
-
-            toggleTheme() {
-                this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
-                this.applyTheme(this.currentTheme);
-            }
-
-            setupEventListeners() {
-                const themeToggle = document.getElementById('themeToggle');
-                themeToggle.addEventListener('click', () => this.toggleTheme());
-            }
-        }
-
-        // Initialize theme manager when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            new ThemeManager();
-        });
-
         // Smooth scrolling for better UX
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {

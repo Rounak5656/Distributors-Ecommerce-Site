@@ -6,9 +6,30 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const otpService = require('./services/otpService');
+const logger = require('./services/logger');
 const MongoStore = require('connect-mongo');
 const { mongoConnect } = require('./services/mongo');
 require('dotenv').config();
+
+// Validate required environment variables at startup
+const requiredEnvVars = [
+    'MONGODB_URI',
+    'GOOGLE_CLIENT_ID',
+    'GOOGLE_CLIENT_SECRET',
+    'SESSION_SECRET'
+];
+
+for (const envVar of requiredEnvVars) {
+    if (!process.env[envVar]) {
+        logger.error(`Missing required environment variable: ${envVar}`, {
+            missingVar: envVar,
+            availableVars: Object.keys(process.env).filter(k => !k.startsWith('npm_') && k !== 'SystemRoot' && k !== 'SystemDrive')
+        });
+        process.exit(1);
+    }
+}
+
+logger.info('Environment validation passed', { loadedEnvVars: requiredEnvVars.length });
 
 //parser
 app.use(express.json());
@@ -17,18 +38,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine','ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// simple in-memory user store (for demo)
-const users = [];
+// MongoDB User model
 const User = require('./models/User');
 
 // session setup
 app.use(session({
-    secret: process.env.SESSION_SECRET || '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',
+    secret: process.env.SESSION_SECRET,  // Already validated above
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 },
+    cookie: {
+        maxAge: 1000 * 60 * 60,  // 1 hour
+        secure: process.env.NODE_ENV === 'production',  // HTTPS only in production
+        httpOnly: true,  // Prevent JavaScript access
+        sameSite: 'strict'  // CSRF protection
+    },
     store: MongoStore.create({
-        mongoUrl: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/distributors_db',
+        mongoUrl: process.env.MONGODB_URI,  // Already validated above
         collectionName: 'sessions'
     })
 }));
@@ -42,32 +67,46 @@ passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "/auth/google/callback"
-}, (accessToken, refreshToken, profile, done) => {
-    // Check if user exists in our database
-    let user = users.find(u => u.googleId === profile.id);
-    if (user) {
+}, async (accessToken, refreshToken, profile, done) => {
+    try {
+        let user = await User.findOne({ googleId: profile.id });
+        if (user) {
+            return done(null, user);
+        }
+        
+        user = await User.findOne({ email: profile.emails[0].value });
+        if (user) {
+            user.googleId = profile.id;
+            user.provider = 'google';
+            await user.save();
+            return done(null, user);
+        }
+
+        user = await User.create({
+            name: profile.displayName,
+            email: profile.emails[0].value,
+            googleId: profile.id,
+            provider: 'google',
+            verified: true
+        });
         return done(null, user);
+    } catch (err) {
+        logger.error('Google OAuth strategy error', err);
+        return done(err, null);
     }
-    
-    // Create new user
-    const newUser = {
-        id: Date.now().toString(),
-        googleId: profile.id,
-        name: profile.displayName,
-        email: profile.emails[0].value,
-        provider: 'google'
-    };
-    users.push(newUser);
-    return done(null, newUser);
 }));
 
 passport.serializeUser((user, done) => {
-    done(null, user.id);
+    done(null, user._id.toString());
 });
 
-passport.deserializeUser((id, done) => {
-    const user = users.find(u => u.id === id);
-    done(null, user);
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await User.findById(id);
+        done(null, user);
+    } catch (err) {
+        done(err, null);
+    }
 });
 
 // expose user to views
@@ -96,15 +135,18 @@ app.get('/signup', (req, res) => {
 app.post('/signup', async (req, res) => {
     try {
         const { name, email, password } = req.body;
-        if (!name || !email || !password) return res.status(400).render('auth/signup', { error: 'Please fill all fields', values: { name, email } });
-        const existing = users.find(u => u.email === email);
-        if (existing) return res.status(400).render('auth/signup', { error: 'Email already exists', values: { name, email } });
+        if (!name || !email || !password) {
+            return res.status(400).render('auth/signup', { error: 'Please fill all fields', values: { name, email } });
+        }
+        const existing = await User.findOne({ email });
+        if (existing) {
+            return res.status(400).render('auth/signup', { error: 'Email already exists', values: { name, email } });
+        }
         const hash = await bcrypt.hash(password, 10);
-        const user = { id: Date.now().toString(), name, email, passwordHash: hash };
-        users.push(user);
-        req.session.user = { id: user.id, name: user.name, email: user.email };
+        const user = await User.create({ name, email, passwordHash: hash, provider: 'local' });
+        req.session.user = { id: user._id.toString(), name: user.name, email: user.email };
         res.redirect('/');
-    } catch (err) {
+    } catch (_err) {
         res.status(500).render('auth/signup', { error: 'Something went wrong', values: {} });
     }
 });
@@ -112,13 +154,17 @@ app.post('/signup', async (req, res) => {
 app.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        const user = users.find(u => u.email === email);
-        if (!user) return res.status(400).render('auth/login', { error: 'Invalid email or password', values: { email } });
+        const user = await User.findOne({ email });
+        if (!user || !user.passwordHash) {
+            return res.status(400).render('auth/login', { error: 'Invalid email or password', values: { email } });
+        }
         const ok = await bcrypt.compare(password, user.passwordHash);
-        if (!ok) return res.status(400).render('auth/login', { error: 'Invalid email or password', values: { email } });
-        req.session.user = { id: user.id, name: user.name, email: user.email };
+        if (!ok) {
+            return res.status(400).render('auth/login', { error: 'Invalid email or password', values: { email } });
+        }
+        req.session.user = { id: user._id.toString(), name: user.name, email: user.email };
         res.redirect('/');
-    } catch (err) {
+    } catch (_err) {
         res.status(500).render('auth/login', { error: 'Something went wrong', values: {} });
     }
 });
@@ -167,7 +213,7 @@ app.post('/send-otp', async (req, res) => {
 
         const otp = otpService.generateOTP();
         await otpService.storeOTP(email, otp, type || 'signup');
-        console.log(`[OTP][${type}] ${email}: ${otp}`);
+        logger.info('OTP generated', { type, email, otp: '***masked***' });
         
         // Send OTP via email
         const emailSent = await otpService.sendOTPEmail(email, otp);
@@ -178,7 +224,7 @@ app.post('/send-otp', async (req, res) => {
             res.status(500).json({ success: false, message: 'Failed to send OTP' });
         }
     } catch (error) {
-        console.error('Send OTP error:', error);
+        logger.error('Send OTP error', error);
         res.status(500).json({ success: false, message: 'Something went wrong' });
     }
 });
@@ -211,7 +257,7 @@ app.post('/verify-otp', async (req, res) => {
             res.json({ success: true, message: 'Account created successfully', redirect: '/' });
         }
     } catch (error) {
-        console.error('Verify OTP error:', error);
+        logger.error('Verify OTP error', error);
         res.status(500).json({ success: false, message: 'Something went wrong' });
     }
 });
@@ -231,10 +277,19 @@ app.get('/GEM/:item', (req, res) => {
     res.render(path.join(__dirname, 'views', 'GEM', req.params.item));
 });
 
+app.get('/INTEX/:item', (req, res) => {
+    res.render(path.join(__dirname, 'views', 'INTEX', req.params.item));
+});
+
+// Wishlist page (client-side, using localStorage)
+app.get('/wishlist', (req, res) => {
+    res.render('wishlist');
+});
+
 mongoConnect().then(() => {
     app.listen(3000, () => {
-        console.log('Server is running on port 3000');
+        logger.info('Server is running on port 3000', { port: 3000 });
     });
 }).catch((err) => {
-    console.error('Failed to start server due to Mongo error:', err);
+    logger.error('Failed to start server due to Mongo error', err);
 });

@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - KAMLAS</title>
+    <title>Sign Up - Kailash Electronics</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="/javascripts/theme.js"></script>
     <style>
         :root {
             /* Light Theme Colors */
@@ -49,6 +51,13 @@
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-accent);
         }
 
         /* Animated Background Elements */
@@ -426,7 +435,7 @@
         .strength-strong { background: #66bb6a; }
     </style>
 </head>
-<body>
+<body class="themeable-page">
     <!-- Animated Background Elements -->
     <div class="bg-elements">
         <div class="floating-appliance appliance-1">
@@ -462,7 +471,7 @@
         </button>
         
         <div class="signup-header">
-            <div class="logo">KAMLAS</div>
+            <div class="logo brand-name">Kailash Electronics</div>
             <p class="subtitle">Create your account to get started</p>
         </div>
 
@@ -546,53 +555,6 @@
     </div>
 
     <script>
-        // Theme Management
-        class ThemeManager {
-            constructor() {
-                this.currentTheme = localStorage.getItem('theme') || 'light';
-                this.init();
-            }
-
-            init() {
-                this.applyTheme(this.currentTheme);
-                this.setupEventListeners();
-            }
-
-            applyTheme(theme) {
-                document.documentElement.setAttribute('data-theme', theme);
-                this.updateThemeToggle(theme);
-                localStorage.setItem('theme', theme);
-            }
-
-            updateThemeToggle(theme) {
-                const themeIcon = document.getElementById('themeIcon');
-                const themeText = document.getElementById('themeText');
-                
-                if (theme === 'dark') {
-                    themeIcon.className = 'fas fa-sun';
-                    themeText.textContent = 'Light';
-                } else {
-                    themeIcon.className = 'fas fa-moon';
-                    themeText.textContent = 'Dark';
-                }
-            }
-
-            toggleTheme() {
-                this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
-                this.applyTheme(this.currentTheme);
-            }
-
-            setupEventListeners() {
-                const themeToggle = document.getElementById('themeToggle');
-                themeToggle.addEventListener('click', () => this.toggleTheme());
-            }
-        }
-
-        // Initialize theme manager when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            new ThemeManager();
-        });
-
         // Sign Up with OTP Flow
         let cachedName = '';
         let cachedEmail = '';
@@ -636,7 +598,7 @@
                     submitBtn.querySelector('span').textContent = 'Create Account';
                 }
             } catch (err) {
-                console.error(err);
+                    console.error(err && err.message ? err.message : err);
                 alert('Something went wrong');
                 submitBtn.classList.remove('loading');
                 submitBtn.querySelector('span').textContent = 'Create Account';
@@ -666,7 +628,7 @@
                     alert(data.message || 'Invalid or expired OTP');
                 }
             } catch (err) {
-                console.error(err);
+                    console.error(err && err.message ? err.message : err);
                 alert('Something went wrong');
             }
         });
@@ -687,7 +649,7 @@
                     alert(data.message || 'Failed to resend OTP');
                 }
             } catch (err) {
-                console.error(err);
+                    console.error(err && err.message ? err.message : err);
                 alert('Something went wrong');
             }
         });

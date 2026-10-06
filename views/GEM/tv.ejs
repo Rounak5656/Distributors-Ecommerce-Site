@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order TV - KAMLAS</title>
+    <title>Order TV - Kailash Electronics</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/stylesheets/theme-overrides.css">
+    <script src="/javascripts/theme.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -25,39 +27,104 @@
         .header h1 { font-size: 2.5em; margin-bottom: 0.5em; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
         .wishlist-link { position: absolute; top: 2em; right: 2em; background: #4ecdc4; color: #fff; padding: 0.5em 1.2em; border-radius: 20px; text-decoration: none; font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: background 0.3s; }
         .wishlist-link:hover { background: #38b2ac; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2em; padding: 2em; max-width: 1200px; margin: 0 auto; }
-        .product-card { background: linear-gradient(145deg, #2a2a2a, #1a1a1a); border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: transform 0.3s ease, box-shadow 0.3s; position: relative; color: #fff; display: flex; flex-direction: column; align-items: stretch; }
-        .product-card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 16px 32px rgba(78,205,196,0.15); }
-        .product-image { width: 100%; height: 200px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.8em;
+            padding: 2em 0 3em;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .product-card {
+            background: linear-gradient(145deg, #2e2e2e, #171717);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 14px 28px rgba(0,0,0,0.35);
+            transition: transform 0.3s ease, box-shadow 0.3s, border 0.3s;
+            position: relative;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(78,205,196,0.25);
+            border-color: rgba(78,205,196,0.5);
+        }
+        .product-image {
+            width: 100%;
+            height: 210px;
+            background: radial-gradient(circle at top, rgba(78,205,196,0.25), transparent 55%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         .product-image img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .wishlist-btn { position: absolute; top: 10px; right: 10px; background: rgba(30,30,30,0.9); border: none; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; color: #4ecdc4; font-size: 1.2em; }
         .wishlist-btn.active { color: #e74c3c; }
         .wishlist-btn:hover { background: #232323; color: #e74c3c; }
         .product-info { padding: 1.2em; }
-        .product-title { font-size: 1.1em; color: #4ecdc4; margin-bottom: 0.5em; text-shadow: 0 0 6px rgba(78,205,196,0.15); }
-        .product-description { color: #b2f7ef; margin: 0.5em 0; font-size: 0.95em; }
+        .product-title { font-size: 1.1em; color: #4ecdc4; margin-bottom: 0.1em; text-shadow: 0 0 6px rgba(78,205,196,0.15); }
+        .product-description { color: #b2f7ef; margin: 0.2em 0 0.6em; font-size: 0.9em; }
         .min-order { color: #e74c3c; font-size: 0.95em; margin: 0.5em 0; display: flex; align-items: center; gap: 0.5em; }
         .quantity-controls { display: flex; align-items: center; gap: 0.5em; margin: 0.5em 0; }
         .quantity-btn { background: #4ecdc4; color: #1a1a1a; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 1.2em; cursor: pointer; transition: background 0.2s; }
         .quantity-btn:hover { background: #38b2ac; }
-        .add-to-cart { background: #4ecdc4; color: #1a1a1a; border: none; padding: 0.7em 1.2em; border-radius: 25px; cursor: pointer; transition: background 0.3s, color 0.3s; width: 100%; margin-top: 1em; display: flex; align-items: center; justify-content: center; gap: 0.5em; font-weight: 600; }
-        .add-to-cart:hover { background: #38b2ac; color: #fff; }
+        .add-to-cart {
+            background: linear-gradient(135deg,#4ecdc4,#2ecc71);
+            color: #1a1a1a;
+            border: none;
+            padding: 0.8em 1.2em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s, transform 0.2s;
+            width: 100%;
+            margin-top: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5em;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        .add-to-cart:hover {
+            background: linear-gradient(135deg,#38b2ac,#27ae60);
+            color: #fff;
+            transform: translateY(-2px);
+        }
         .add-to-cart:disabled { background: #95a5a6; color: #fff; cursor: not-allowed; }
-        @media (max-width: 900px) { .products-grid { grid-template-columns: 1fr !important; gap: 1em !important; padding: 1em !important; } .header { margin: 1em 0 !important; } }
-        @media (max-width: 600px) { .header h1 { font-size: 1.3em !important; } .product-card { min-width: 0 !important; max-width: 100% !important; padding: 0.7em !important; } .products-grid { gap: 0.5em !important; padding: 0.5em !important; } }
+        @media (max-width: 1024px) {
+            .products-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                padding: 1.5em 0 2em;
+            }
+        }
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2em;
+                padding: 1em 0 2em;
+            }
+            .header {
+                margin: 1.5em 0;
+            }
+        }
+        @media (max-width: 600px) { .header h1 { font-size: 1.3em !important; } .product-card { min-width: 0 !important; max-width: 100% !important; padding: 0.7em !important; } .products-grid { gap: 0.8em !important; padding: 0.5em 0 1.5em !important; } }
         @media (max-width: 400px) { .header h1 { font-size: 1em !important; } .product-card { padding: 0.3em !important; } }
     </style>
 </head>
-<body>
+<body class="themeable-page">
     <div class="header">
         <h1>Order TV</h1>
         <a href="/wishlist" class="wishlist-link"><i class="fa fa-heart"></i> My Wishlist</a>
     </div>
     <div class="products-grid">
-        <!-- Demo TV Products -->
+        <!-- GEM TV Products -->
         <div class="product-card" data-id="tv1">
             <div class="product-image">
-                <img src="/public/images/deli glswr3.png" alt="TV 1">
+                <img src="/images/tv1.png" alt="TV 1">
                 <button class="wishlist-btn" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
             </div>
             <div class="product-info">
@@ -74,7 +141,7 @@
         </div>
         <div class="product-card" data-id="tv2">
             <div class="product-image">
-                <img src="/public/images/deli glassware2.png" alt="TV 2">
+                <img src="/images/tv2.png" alt="TV 2">
                 <button class="wishlist-btn" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
             </div>
             <div class="product-info">
@@ -89,7 +156,75 @@
                 <button class="add-to-cart">Order Now</button>
             </div>
         </div>
-        <!-- Add more products as needed -->
+        <div class="product-card" data-id="tv3">
+            <div class="product-image">
+                <img src="/images/tv3.png" alt="TV 3">
+                <button class="wishlist-btn" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
+            </div>
+            <div class="product-info">
+                <div class="product-title">50" 4K QLED TV</div>
+                <div class="product-description">Quantum Dot Display, Dolby Vision, 3 HDMI, 2 USB</div>
+                <div class="min-order"><i class="fa fa-box"></i> Minimum Order: <span class="min">2</span> units</div>
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="changeQty(this, -1)">-</button>
+                    <span class="qty">2</span>
+                    <button class="quantity-btn" onclick="changeQty(this, 1)">+</button>
+                </div>
+                <button class="add-to-cart">Order Now</button>
+            </div>
+        </div>
+        <div class="product-card" data-id="tv4">
+            <div class="product-image">
+                <img src="/images/tv4.png" alt="TV 4">
+                <button class="wishlist-btn" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
+            </div>
+            <div class="product-info">
+                <div class="product-title">55" 4K UHD Smart TV</div>
+                <div class="product-description">Bezel-less Design, Android TV, Google Assistant Built-in</div>
+                <div class="min-order"><i class="fa fa-box"></i> Minimum Order: <span class="min">1</span> unit</div>
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="changeQty(this, -1)">-</button>
+                    <span class="qty">1</span>
+                    <button class="quantity-btn" onclick="changeQty(this, 1)">+</button>
+                </div>
+                <button class="add-to-cart">Order Now</button>
+            </div>
+        </div>
+        <div class="product-card" data-id="tv5">
+            <div class="product-image">
+                <img src="/images/tv5.png" alt="TV 5">
+                <button class="wishlist-btn" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
+            </div>
+            <div class="product-info">
+                <div class="product-title">65" 4K Ultra HD TV</div>
+                <div class="product-description">Premium Metal Stand, Dolby Atmos, Wi‑Fi 6</div>
+                <div class="min-order"><i class="fa fa-box"></i> Minimum Order: <span class="min">1</span> unit</div>
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="changeQty(this, -1)">-</button>
+                    <span class="qty">1</span>
+                    <button class="quantity-btn" onclick="changeQty(this, 1)">+</button>
+                </div>
+                <button class="add-to-cart">Order Now</button>
+            </div>
+        </div>
+        <div class="product-card" data-id="tv6">
+            <div class="product-image">
+                <img src="/images/tv6.png" alt="TV 6">
+                <button class="wishlist-btn" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
+            </div>
+            <div class="product-info">
+                <div class="product-title">24" HD LED TV</div>
+                <div class="product-description">Compact Size, HDMI + USB, Ideal for Small Rooms</div>
+                <div class="min-order"><i class="fa fa-box"></i> Minimum Order: <span class="min">4</span> units</div>
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="changeQty(this, -1)">-</button>
+                    <span class="qty">4</span>
+                    <button class="quantity-btn" onclick="changeQty(this, 1)">+</button>
+                </div>
+                <button class="add-to-cart">Order Now</button>
+            </div>
+        </div>
+        <!-- More GEM TVs can be added in same pattern -->
     </div>
     <script>
         // Quantity Control

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wishlist - Kailash Electronics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/stylesheets/theme-overrides.css">
+    <script src="/javascripts/theme.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            margin: 0 auto;
+            max-width: 1200px;
+            width: 95%;
+            background: #fafafa;
+            color: #111;
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 2em 0 1em;
+            position: relative;
+        }
+        .page-title-group h1 {
+            font-size: 2em;
+            margin-bottom: 0.2em;
+            text-shadow: 0 0 12px rgba(255,255,255,0.25);
+        }
+        .page-title-group p {
+            font-size: 0.9em;
+            color: #b2f7ef;
+        }
+        .badge-pill {
+            background: rgba(78,205,196,0.1);
+            border-radius: 999px;
+            padding: 0.4em 0.9em;
+            font-size: 0.8em;
+            color: #9adbd7;
+        }
+        .back-link {
+            position: absolute;
+            left: 0;
+            bottom: -1.8em;
+            font-size: 0.85em;
+            color: #5ba7a1;
+            text-decoration: none;
+        }
+        .back-link i { margin-right: 0.3em; }
+
+        .wishlist-summary {
+            margin-top: 3em;
+            margin-bottom: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1em;
+            font-size: 0.9em;
+            color: #d7f9f6;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.6em;
+            padding: 1.5em 0 3em;
+        }
+        .wishlist-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 14px 30px rgba(0,0,0,0.1);
+            border: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.25s ease, box-shadow 0.25s, border-color 0.25s;
+        }
+        .wishlist-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-color: #19635e;
+        }
+        .wishlist-image {
+            height: 180px;
+            background: radial-gradient(circle at top, rgba(78,205,196,0.24), transparent 60%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .wishlist-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .wishlist-body {
+            padding: 1.1em 1.2em 1.2em;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4em;
+        }
+        .wishlist-meta {
+            font-size: 0.8em;
+            color: #666;
+        }
+        .wishlist-title {
+            font-size: 1.02em;
+            font-weight: 600;
+            color: #2a2a2a;
+        }
+        .wishlist-desc {
+            font-size: 0.9em;
+            color: #444;
+            min-height: 36px;
+        }
+        .wishlist-min {
+            font-size: 0.85em;
+            color: #c0392b;
+        }
+        .card-actions {
+            margin-top: 0.6em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5em;
+        }
+        .btn {
+            border: none;
+            border-radius: 999px;
+            padding: 0.55em 1em;
+            font-size: 0.85em;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4em;
+            font-weight: 600;
+            transition: background 0.25s, color 0.25s, transform 0.15s;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg,#4ecdc4,#2ecc71);
+            color: #04110f;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg,#38b2ac,#27ae60);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #ccc;
+            color: #e57373;
+        }
+        .btn-outline:hover {
+            border-color: #ff6b6b;
+            background: rgba(255,107,107,0.08);
+            transform: translateY(-1px);
+        }
+
+        .empty-state {
+            margin-top: 4em;
+            text-align: center;
+            color: #b2f7ef;
+        }
+        .empty-state i {
+            font-size: 2.6em;
+            margin-bottom: 0.4em;
+            color: #4ecdc4;
+            opacity: 0.6;
+        }
+        .empty-state h2 {
+            font-size: 1.4em;
+            margin-bottom: 0.3em;
+        }
+        .empty-state p {
+            font-size: 0.95em;
+            margin-bottom: 1em;
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.6em;
+            }
+            .back-link {
+                position: static;
+                margin-top: 0.5em;
+            }
+            .wishlist-summary {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body class="themeable-page">
+    <header class="page-header">
+        <div class="page-title-group">
+            <h1>My Wishlist</h1>
+            <p>View all your saved products in one place and order them faster.</p>
+        </div>
+        <div class="badge-pill">
+            <span id="wishlistCountText">0 items</span>
+        </div>
+        <a href="/" class="back-link"><i class="fa fa-arrow-left"></i> Back to Home</a>
+    </header>
+
+    <section class="wishlist-summary">
+        <span>Your wishlist is saved in this browser – products stay even without logging in.</span>
+        <button class="btn btn-outline" id="clearWishlistBtn">
+            <i class="fa fa-trash"></i> Clear entire wishlist
+        </button>
+    </section>
+
+    <section id="wishlistContent">
+        <div class="empty-state" id="emptyState" style="display:none;">
+            <i class="fa fa-heart-broken"></i>
+            <h2>Your wishlist is empty</h2>
+            <p>You haven't shortlisted any products yet. Tap the heart icon on any product to add it here.</p>
+            <a href="/" class="btn btn-primary">
+                <i class="fa fa-store"></i> Browse products
+            </a>
+        </div>
+
+        <div class="products-grid" id="wishlistGrid"></div>
+    </section>
+
+    <script>
+        // Static product catalog to map wishlist IDs to display data
+        const PRODUCT_DB = {
+            // GEM TVs
+            "tv1": { title: "32\" LED Smart TV (GEM)", desc: "HD Ready, Smart Apps, 2 HDMI, 1 USB", img: "/images/tv1.png", min: "Minimum Order: 2 units", link: "/GEM/tv", tag: "GEM • TV" },
+            "tv2": { title: "43\" 4K Ultra HD TV (GEM)", desc: "Ultra HD, Voice Remote, 3 HDMI, 2 USB", img: "/images/tv2.png", min: "Minimum Order: 1 unit", link: "/GEM/tv", tag: "GEM • TV" },
+            "tv3": { title: "50\" 4K QLED TV (GEM)", desc: "Quantum Dot Display, Dolby Vision", img: "/images/tv3.png", min: "Minimum Order: 2 units", link: "/GEM/tv", tag: "GEM • TV" },
+            "tv4": { title: "55\" 4K UHD Smart TV (GEM)", desc: "Bezel-less, Android TV, Google Assistant", img: "/images/tv4.png", min: "Minimum Order: 1 unit", link: "/GEM/tv", tag: "GEM • TV" },
+            "tv5": { title: "65\" 4K Ultra HD TV (GEM)", desc: "Premium metal stand, Dolby Atmos", img: "/images/tv5.png", min: "Minimum Order: 1 unit", link: "/GEM/tv", tag: "GEM • TV" },
+            "tv6": { title: "24\" HD LED TV (GEM)", desc: "Compact, HDMI + USB, ideal for small rooms", img: "/images/tv6.png", min: "Minimum Order: 4 units", link: "/GEM/tv", tag: "GEM • TV" },
+            // GEM AC/Fridge/WM
+            "ac1": { title: "1.5 Ton Split AC (GEM)", desc: "Inverter, 5 Star, Copper Condenser", img: "/images/ac1.png", min: "Minimum Order: 2 units", link: "/GEM/ac", tag: "GEM • AC" },
+            "ac2": { title: "2 Ton Window AC (GEM)", desc: "Turbo Cooling, Anti-bacterial Filter", img: "/images/ac2.png", min: "Minimum Order: 1 unit", link: "/GEM/ac", tag: "GEM • AC" },
+            "fridge1": { title: "Single Door Fridge (GEM)", desc: "190L, 5 Star, Energy efficient", img: "/images/fridge1.png", min: "Minimum Order: 2 units", link: "/GEM/fridge", tag: "GEM • Fridge" },
+            "fridge2": { title: "Double Door Fridge (GEM)", desc: "Frost Free, 260L, Inverter", img: "/images/fridge2.png", min: "Minimum Order: 1 unit", link: "/GEM/fridge", tag: "GEM • Fridge" },
+            "wm1": { title: "Top Load Washing Machine (GEM)", desc: "6.5kg, Fully Automatic, Smart Inverter", img: "/images/wm1.png", min: "Minimum Order: 2 units", link: "/GEM/wm", tag: "GEM • Washing Machine" },
+            "wm2": { title: "Front Load Washing Machine (GEM)", desc: "8kg, Inverter Direct Drive", img: "/images/wm2.png", min: "Minimum Order: 1 unit", link: "/GEM/wm", tag: "GEM • Washing Machine" },
+
+            // TAKARA TVs / AC / Fridge / WM
+            "takara_tv1": { alias: "tv1", title: "32\" LED Smart TV (TAKARA)", desc: "HD Ready, Smart Apps", img: "/images/takara-tv1.png", min: "Minimum Order: 2 units", link: "/TAKARA/tv", tag: "TAKARA • TV" },
+            "takara_tv2": { alias: "tv2", title: "43\" 4K Smart TV (TAKARA)", desc: "4K UHD, Voice Remote", img: "/images/takara-tv2.png", min: "Minimum Order: 1 unit", link: "/TAKARA/tv", tag: "TAKARA • TV" },
+            "takara_ac1": { alias: "ac1", title: "1.5 Ton Split AC (TAKARA)", desc: "Inverter, 5 Star", img: "/images/takara-ac1.png", min: "Minimum Order: 2 units", link: "/TAKARA/ac", tag: "TAKARA • AC" },
+            "takara_ac2": { alias: "ac2", title: "2 Ton Window AC (TAKARA)", desc: "Turbo Cooling", img: "/images/takara-ac2.png", min: "Minimum Order: 1 unit", link: "/TAKARA/ac", tag: "TAKARA • AC" },
+            "takara_fridge1": { alias: "fridge1", title: "Single Door Fridge (TAKARA)", desc: "190L, 5 Star", img: "/images/takara-fridge1.png", min: "Minimum Order: 2 units", link: "/TAKARA/fridge", tag: "TAKARA • Fridge" },
+            "takara_fridge2": { alias: "fridge2", title: "Double Door Fridge (TAKARA)", desc: "Frost Free, 260L", img: "/images/takara-fridge2.png", min: "Minimum Order: 1 unit", link: "/TAKARA/fridge", tag: "TAKARA • Fridge" },
+            "takara_wm1": { alias: "wm1", title: "Top Load Washing Machine (TAKARA)", desc: "6.5kg, Fully Automatic", img: "/images/takara-wm1.png", min: "Minimum Order: 2 units", link: "/TAKARA/wm", tag: "TAKARA • Washing Machine" },
+            "takara_wm2": { alias: "wm2", title: "Front Load Washing Machine (TAKARA)", desc: "8kg, Inverter", img: "/images/takara-wm2.png", min: "Minimum Order: 1 unit", link: "/TAKARA/wm", tag: "TAKARA • Washing Machine" },
+
+            // Zebronics TVs
+            "zeb-tv-43-uhd": { title: "43\" 4K Ultra HD Smart TV", desc: "Bezel-less, 4K HDR, Dolby Audio", img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=1200&auto=format&fit=crop", min: "MOQ: 2 units", link: "/zebronics/tv", tag: "Zebronics • TV" },
+            "zeb-tv-55-uhd": { title: "55\" 4K Ultra HD Smart TV", desc: "Wide color gamut, MEMC, Voice Remote", img: "https://images.unsplash.com/photo-1593359677879-9749f0098f2b?q=80&w=1200&auto=format&fit=crop", min: "MOQ: 1 unit", link: "/zebronics/tv", tag: "Zebronics • TV" },
+            "zeb-tv-32-hd": { title: "32\" HD Ready Smart TV", desc: "HD Ready panel, OTT apps", img: "https://images.unsplash.com/photo-1583224931233-4d635cdba79e?q=80&w=1200&auto=format&fit=crop", min: "MOQ: 3 units", link: "/zebronics/tv", tag: "Zebronics • TV" },
+            "zeb-tv-40-fhd": { title: "40\" Full HD Smart TV", desc: "FHD, DTS sound, Dual HDMI", img: "https://images.unsplash.com/photo-1599507593238-5bea0743a653?q=80&w=1200&auto=format&fit=crop", min: "MOQ: 2 units", link: "/zebronics/tv", tag: "Zebronics • TV" },
+            "zeb-tv-65-uhd": { title: "65\" 4K UHD Smart TV", desc: "Dolby Vision/Atmos, Premium design", img: "https://images.unsplash.com/photo-1585079542156-2755d9c8affd?q=80&w=1200&auto=format&fit=crop", min: "MOQ: 1 unit", link: "/zebronics/tv", tag: "Zebronics • TV" },
+
+            // Zebronics AC
+            "zeb-ac-split-15": { title: "1.5 Ton 5 Star Split AC", desc: "Inverter, Copper condenser", img: "https://images.unsplash.com/photo-1587049352847-4a222e784d38?q=80&w=1200&auto=format&fit=crop", min: "MOQ: 2 units", link: "/zebronics/ac", tag: "Zebronics • AC" },
+            "zeb-ac-split-10": { title: "1 Ton 3 Star Split AC", desc: "Fast cooling, Sleep mode", img: "https://images.unsplash.com/photo-1603808032803-9f91ecdeef7d?q=80&w=1200&auto=format&fit=crop", min: "MOQ: 2 units", link: "/zebronics/ac", tag: "Zebronics • AC" },
+            "zeb-ac-window-10": { title: "1 Ton Window AC", desc: "Anti-dust filter, Auto restart", img: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=1200&auto=format&fit=crop", min: "MOQ: 1 unit", link: "/zebronics/ac", tag: "Zebronics • AC" },
+
+            // Zebronics IT & Speakers (only those that support wishlist if needed)
+            "zeb-bt-mini": { title: "Mini Bluetooth Speaker", desc: "Portable, 10h backup, IPX5", img: "https://images.unsplash.com/photo-1601933470928-c1d1e1a26fa2?q=80&w=1200&auto=format&fit=crop", min: "Bulk MOQ on request", link: "/zebronics/speakers", tag: "Zebronics • Speaker" },
+            "zeb-bt-20w": { title: "20W Bluetooth Speaker", desc: "Dual drivers, deep bass", img: "https://images.unsplash.com/photo-1595688633475-6f82f59468b8?q=80&w=1200&auto=format&fit=crop", min: "Bulk MOQ on request", link: "/zebronics/speakers", tag: "Zebronics • Speaker" },
+            "zeb-bar-1000": { title: "Soundbar with Subwoofer", desc: "240W peak, HDMI ARC", img: "https://images.unsplash.com/photo-1602762922511-3b68aaedbb29?q=80&w=1200&auto=format&fit=crop", min: "Bulk MOQ on request", link: "/zebronics/speakers", tag: "Zebronics • Soundbar" },
+            "zeb-party-woofer": { title: "Trolley Party Speaker", desc: "RGB lights, karaoke mic", img: "https://images.unsplash.com/photo-1606229365485-93f8f82623b1?q=80&w=1200&auto=format&fit=crop", min: "Bulk MOQ on request", link: "/zebronics/speakers", tag: "Zebronics • Party Speaker" }
+        };
+
+        function getWishlistIds() {
+            try {
+                return JSON.parse(localStorage.getItem('wishlist') || '[]');
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function setWishlistIds(ids) {
+            localStorage.setItem('wishlist', JSON.stringify(ids));
+        }
+
+        function updateHeaderCount(count) {
+            var textEl = document.getElementById('wishlistCountText');
+            if (!textEl) return;
+            if (count === 0) textEl.textContent = '0 items';
+            else if (count === 1) textEl.textContent = '1 item';
+            else textEl.textContent = count + ' items';
+        }
+
+        function renderWishlist() {
+            const grid = document.getElementById('wishlistGrid');
+            const empty = document.getElementById('emptyState');
+            if (!grid || !empty) return;
+
+            const ids = getWishlistIds();
+            const uniqueIds = Array.from(new Set(ids));
+
+            updateHeaderCount(uniqueIds.length);
+
+            if (!uniqueIds.length) {
+                grid.innerHTML = '';
+                empty.style.display = '';
+                return;
+            }
+
+            empty.style.display = 'none';
+
+            const cardsHtml = uniqueIds.map(id => {
+                const p = PRODUCT_DB[id];
+                if (!p) return '';
+                return `
+                <article class="wishlist-card" data-id="${id}">
+                    <div class="wishlist-image">
+                        <img src="${p.img}" alt="${p.title}">
+                    </div>
+                    <div class="wishlist-body">
+                        <div class="wishlist-meta">${p.tag || ''}</div>
+                        <h2 class="wishlist-title">${p.title}</h2>
+                        <p class="wishlist-desc">${p.desc || ''}</p>
+                        <p class="wishlist-min"><i class="fa fa-box"></i> ${p.min || ''}</p>
+                        <div class="card-actions">
+                            <a href="${p.link}" class="btn btn-primary">
+                                <i class="fa fa-eye"></i> View product
+                            </a>
+                            <button class="btn btn-outline js-remove" type="button">
+                                <i class="fa fa-times"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                </article>`;
+            }).join('');
+
+            grid.innerHTML = cardsHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            renderWishlist();
+
+            // Remove single item
+            document.body.addEventListener('click', function (e) {
+                const btn = e.target.closest && e.target.closest('.js-remove');
+                if (!btn) return;
+                const card = btn.closest('.wishlist-card');
+                if (!card) return;
+                const id = card.getAttribute('data-id');
+                let ids = getWishlistIds();
+                ids = ids.filter(x => x !== id);
+                setWishlistIds(ids);
+                renderWishlist();
+            });
+
+            // Clear all
+            const clearBtn = document.getElementById('clearWishlistBtn');
+            if (clearBtn) {
+                clearBtn.addEventListener('click', function () {
+                    if (!confirm('Clear entire wishlist?')) return;
+                    setWishlistIds([]);
+                    renderWishlist();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
+

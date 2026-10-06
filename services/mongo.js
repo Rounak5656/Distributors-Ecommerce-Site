@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
+const logger = require('./logger');
 
 let isConnected = false;
 
 async function mongoConnect() {
-    if (isConnected) return mongoose.connection;
+    if (isConnected) {
+        return mongoose.connection;
+    }
 
     const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/distributors_db';
 
@@ -14,7 +17,7 @@ async function mongoConnect() {
     });
 
     isConnected = true;
-    console.log('MongoDB connected');
+    logger.info('MongoDB connected');
     return mongoose.connection;
 }
 

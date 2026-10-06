@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Fridge - KAMLAS</title>
+    <title>Order Fridge - Kailash Electronics</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/stylesheets/theme-overrides.css">
+    <script src="/javascripts/theme.js"></script>
     <style>
         * {
             margin: 0;
@@ -55,32 +57,34 @@
         }
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2em;
-            padding: 2em;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.8em;
+            padding: 2em 0 3em;
             max-width: 1200px;
             margin: 0 auto;
         }
         .product-card {
-            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
-            border-radius: 15px;
+            background: linear-gradient(145deg, #2e2e2e, #171717);
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s;
+            box-shadow: 0 14px 28px rgba(0,0,0,0.35);
+            transition: transform 0.3s ease, box-shadow 0.3s, border 0.3s;
             position: relative;
             color: #fff;
             display: flex;
             flex-direction: column;
             align-items: stretch;
+            border: 1px solid rgba(255,255,255,0.05);
         }
         .product-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 16px 32px rgba(78,205,196,0.15);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(78,205,196,0.25);
+            border-color: rgba(78,205,196,0.5);
         }
         .product-image {
             width: 100%;
-            height: 200px;
-            background: rgba(255,255,255,0.05);
+            height: 210px;
+            background: radial-gradient(circle at top, rgba(78,205,196,0.25), transparent 55%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -120,13 +124,13 @@
         .product-title {
             font-size: 1.1em;
             color: #4ecdc4;
-            margin-bottom: 0.5em;
+            margin-bottom: 0.1em;
             text-shadow: 0 0 6px rgba(78,205,196,0.15);
         }
         .product-description {
             color: #b2f7ef;
-            margin: 0.5em 0;
-            font-size: 0.95em;
+            margin: 0.2em 0 0.6em;
+            font-size: 0.9em;
         }
         .min-order {
             color: #e74c3c;
@@ -157,13 +161,13 @@
             background: #38b2ac;
         }
         .add-to-cart {
-            background: #4ecdc4;
+            background: linear-gradient(135deg,#4ecdc4,#2ecc71);
             color: #1a1a1a;
             border: none;
-            padding: 0.7em 1.2em;
+            padding: 0.8em 1.2em;
             border-radius: 25px;
             cursor: pointer;
-            transition: background 0.3s, color 0.3s;
+            transition: background 0.3s, color 0.3s, transform 0.2s;
             width: 100%;
             margin-top: 1em;
             display: flex;
@@ -171,24 +175,32 @@
             justify-content: center;
             gap: 0.5em;
             font-weight: 600;
+            letter-spacing: 0.02em;
         }
         .add-to-cart:hover {
-            background: #38b2ac;
+            background: linear-gradient(135deg,#38b2ac,#27ae60);
             color: #fff;
+            transform: translateY(-2px);
         }
         .add-to-cart:disabled {
             background: #95a5a6;
             color: #fff;
             cursor: not-allowed;
         }
-        @media (max-width: 900px) {
+        @media (max-width: 1024px) {
             .products-grid {
-                grid-template-columns: 1fr !important;
-                gap: 1em !important;
-                padding: 1em !important;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                padding: 1.5em 0 2em;
+            }
+        }
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2em;
+                padding: 1em 0 2em;
             }
             .header {
-                margin: 1em 0 !important;
+                margin: 1.5em 0;
             }
         }
         @media (max-width: 600px) {
@@ -201,21 +213,13 @@
                 padding: 0.7em !important;
             }
             .products-grid {
-                gap: 0.5em !important;
-                padding: 0.5em !important;
-            }
-        }
-        @media (max-width: 400px) {
-            .header h1 {
-                font-size: 1em !important;
-            }
-            .product-card {
-                padding: 0.3em !important;
+                gap: 0.8em !important;
+                padding: 0.5em 0 1.5em !important;
             }
         }
     </style>
 </head>
-<body>
+<body class="themeable-page">
     <div class="header">
         <h1>Order Fridge</h1>
         <a href="/wishlist" class="wishlist-link"><i class="fa fa-heart"></i> My Wishlist</a>
@@ -224,7 +228,7 @@
         <!-- Demo Fridge Products -->
         <div class="product-card" data-id="fridge1">
             <div class="product-image">
-                <img src="/public/images/deli glassware.png" alt="Fridge 1">
+                <img src="/images/takara-fridge1.png" alt="Fridge 1">
                 <button class="wishlist-btn" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
             </div>
             <div class="product-info">
@@ -241,7 +245,7 @@
         </div>
         <div class="product-card" data-id="fridge2">
             <div class="product-image">
-                <img src="/public/images/deli glassware2.png" alt="Fridge 2">
+                <img src="/images/takara-fridge2.png" alt="Fridge 2">
                 <button class="wishlist-btn" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
             </div>
             <div class="product-info">

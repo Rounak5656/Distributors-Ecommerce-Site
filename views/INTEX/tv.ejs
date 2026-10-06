@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intex TVs - Kailash Electronics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/stylesheets/theme-overrides.css">
+    <script src="/javascripts/theme.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        nav { background: rgba(26, 26, 26, 0.95); padding: 1em 2em; display: flex; justify-content: flex-end; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.3); position: sticky; top: 0; z-index: 100; }
+        nav a { background: #4ecdc4; color: #1a1a1a; padding: 0.6em 1.4em; border-radius: 20px; text-decoration: none; font-weight: 600; transition: background 0.3s; display: flex; align-items: center; gap: 0.5em; }
+        nav a:hover { background: #38b2ac; }
+        body {
+            margin: 0 auto;
+            max-width: 1200px;
+            width: 95%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .header { text-align: center; margin: 2em 0; animation: fadeIn 1s ease-in; flex: 0 0 auto; position: relative; }
+        .header h1 { font-size: 2.2em; margin-bottom: 0.2em; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .header p { color: #b2f7ef; font-size: 0.95em; }
+        .breadcrumbs { text-align: center; margin-top: .5em; color: #9adbd7; font-size: .85em; }
+
+        .section-title { margin: 1.2em 0 .3em; padding-left: .4em; border-left: 4px solid #4ecdc4; color: #4ecdc4; font-size: 1.2em; letter-spacing: .5px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.4em; padding: 1.4em; max-width: 1200px; margin: 0 auto; }
+        .product-card { background: linear-gradient(145deg, #2a2a2a, #1a1a1a); border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: transform 0.3s ease, box-shadow 0.3s; position: relative; color: #fff; display: flex; flex-direction: column; align-items: stretch; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 16px 32px rgba(78,205,196,0.15); }
+        .badge { position: absolute; top: 12px; left: 12px; background: #4ecdc4; color: #1a1a1a; font-weight: 700; padding: .25em .6em; border-radius: 6px; font-size: .75em; z-index: 10; }
+        
+        .product-image { 
+            width: 100%; 
+            aspect-ratio: 16 / 9;
+            background: rgba(255,255,255,0.05); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative; 
+            overflow: hidden;
+        }
+        .image-slider { width: 100%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center; }
+        .slider-image { position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.5s ease; }
+        .slider-image.active { opacity: 1; }
+        .slider-image img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .slider-image img.image-error { display: none; }
+        .slider-image.image-missing::before { 
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: #4ecdc4;
+            opacity: 0.7;
+        }
+        .slider-image.image-missing::after {
+            content: '⚠';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            color: #4ecdc4;
+            opacity: 0.9;
+            z-index: 1;
+        }
+        .no-image-text {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #bcefee;
+            font-size: 0.85em;
+            text-align: center;
+            z-index: 2;
+            width: 90%;
+        }
+        
+        .slider-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #4ecdc4; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; z-index: 5; opacity: 0; }
+        .product-image:hover .slider-nav { opacity: 1; }
+        .slider-nav:hover { background: #4ecdc4; color: #1a1a1a; }
+        .slider-nav.prev { left: 8px; }
+        .slider-nav.next { right: 8px; }
+        
+        .slider-dots { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 5; opacity: 0; transition: opacity 0.3s ease; }
+        .product-image:hover .slider-dots { opacity: 1; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(78,205,196,0.5); cursor: pointer; transition: all 0.3s ease; }
+        .dot.active { background: #4ecdc4; transform: scale(1.2); }
+        
+        .wishlist-btn { position: absolute; top: 10px; right: 10px; background: rgba(30,30,30,0.9); border: none; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; color: #4ecdc4; font-size: 1.1em; z-index: 10; }
+        .wishlist-btn.active { color: #e74c3c; }
+        .wishlist-btn:hover { background: #232323; color: #e74c3c; }
+        .product-info { padding: 1.4em; display: flex; flex-direction: column; gap: 0.8em; }
+        .product-title { font-size: 1.2em; font-weight: 600; color: #4ecdc4; margin: 0; text-shadow: 0 0 6px rgba(78,205,196,0.15); }
+        .product-description { color: #d7f9f6; margin: 0; font-size: 0.9em; min-height: 40px; }
+        .spec-list { list-style: none; margin: .2em 0 0; padding: 0; color: #bcefee; font-size: .85em; display: grid; grid-template-columns: 1fr 1fr; gap: .5em .8em; }
+        .spec-list li { display: flex; align-items: center; padding: 0.3em 0; }
+        .spec-list li i { color: #a0a0a0; margin-right: .4em; min-width: 1em; text-align: center; }
+        .cta-row { display: flex; align-items: center; gap: .6em; margin-top: .8em; flex-wrap: wrap; }
+        .price { color: #fff; font-weight: 700; letter-spacing: .5px; }
+        .add-to-cart { background: #ff6b35; color: #fff; border: none; padding: 0.7em 1.2em; border-radius: 10px; cursor: pointer; transition: background 0.3s, transform 0.2s; font-weight: 700; flex: 1; min-width: 100px; text-align: center; }
+        .add-to-cart:hover { background: #ff5722; transform: scale(1.05); }
+        .min-order { color: #8a7a7a; font-size: 0.75em; opacity: 0.8; }
+        @media (max-width: 900px) { .products-grid { grid-template-columns: 1fr !important; gap: 1em !important; padding: 1em !important; } .header { margin: 1em 0 !important; } }
+        @media (max-width: 600px) { .header h1 { font-size: 1.3em !important; } .product-card { min-width: 0 !important; max-width: 100% !important; } .products-grid { gap: 0.8em !important; padding: 0.8em !important; } }
+        @media (max-width: 400px) { .header h1 { font-size: 1em !important; } .product-card { padding: 0 !important; } }
+    </style>
+</head>
+<body class="themeable-page">
+    <nav>
+        <a href="/wishlist"><i class="fa fa-heart"></i> My Wishlist</a>
+    </nav>
+    <div class="header">
+        <h1>INTEX Televisions</h1>
+        <p>Explore affordable HD Ready to 4K UHD TVs with smart features and excellent picture quality.</p>
+    </div>
+
+    <h2 class="section-title">Featured</h2>
+    <div class="products-grid">
+        <div class="product-card" data-id="intex-tv-43-fhd">
+            <span class="badge">Best Seller</span>
+            <div class="product-image">
+                <div class="image-slider">
+                    <div class="slider-image active">
+                        <img src="/images/INTEX/tv/Intex LED-SFF4330 109 cm (43) Full HD Smart TV/1.webp" alt="43 inch Full HD Smart TV">
+                    </div>
+                    <div class="slider-image">
+                        <img src="/images/INTEX/tv/Intex LED-SFF4330 109 cm (43) Full HD Smart TV/2.webp" alt="43 inch Full HD Smart TV">
+                    </div>
+                    <div class="slider-image">
+                        <img src="/images/INTEX/tv/Intex LED-SFF4330 109 cm (43) Full HD Smart TV/3.webp" alt="43 inch Full HD Smart TV">
+                    </div>
+                    <div class="slider-image">
+                        <img src="/images/INTEX/tv/Intex LED-SFF4330 109 cm (43) Full HD Smart TV/4.webp" alt="43 inch Full HD Smart TV">
+                    </div>
+                </div>
+                <button class="slider-nav prev" onclick="changeSlide(this, -1)">‹</button>
+                <button class="slider-nav next" onclick="changeSlide(this, 1)">›</button>
+                <div class="slider-dots" onclick="goToSlide(event, this)">
+                    <span class="dot active" data-index="0"></span>
+                    <span class="dot" data-index="1"></span>
+                    <span class="dot" data-index="2"></span>
+                    <span class="dot" data-index="3"></span>
+                </div>
+                <button class="wishlist-btn" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
+            </div>
+            <div class="product-info">
+                <div class="product-title">43" Full HD Smart Google TV</div>
+                <p class="product-description">LED-SFF4330: Full HD Display, Google TV OS, Dual Speakers, Wide Connectivity</p>
+                <ul class="spec-list">
+                    <li><i class="fa fa-tv"></i> 1920×1080, 60Hz</li>
+                    <li><i class="fa fa-microchip"></i> Android Quad-core, 1GB/8GB</li>
+                    <li><i class="fa fa-wifi"></i> Wi‑Fi Built-in</li>
+                    <li><i class="fa fa-plug"></i> 2×HDMI, 2×USB</li>
+                </ul>
+                <div class="cta-row">
+                    <span class="price">₹17,499</span>
+                    <span class="min-order"><i class="fa fa-box"></i> MOQ: 2 units</span>
+                    <button class="add-to-cart">Order</button>
+                </div>
+            </div>
+        </div>
+        <div class="product-card" data-id="intex-tv-55-4k-qled">
+            <span class="badge">4K QLED</span>
+            <div class="product-image">
+                <div class="image-slider">
+                    <div class="slider-image active">
+                        <img src="/images/INTEX/tv/Intex 55" 4K QLED Google TV  LED-GQ5521/1.webp" alt="55 inch 4K QLED TV">
+                    </div>
+                    <div class="slider-image">
+                        <img src="/images/INTEX/tv/Intex 55" 4K QLED Google TV  LED-GQ5521/2.webp" alt="55 inch 4K QLED TV">
+                    </div>
+                    <div class="slider-image">
+                        <img src="/images/INTEX/tv/Intex 55" 4K QLED Google TV  LED-GQ5521/3.webp" alt="55 inch 4K QLED TV">
+                    </div>
+                    <div class="slider-image">
+                        <img src="/images/INTEX/tv/Intex 55" 4K QLED Google TV  LED-GQ5521/4.webp" alt="55 inch 4K QLED TV">
+                    </div>
+                </div>
+                <button class="slider-nav prev" onclick="changeSlide(this, -1)">‹</button>
+                <button class="slider-nav next" onclick="changeSlide(this, 1)">›</button>
+                <div class="slider-dots" onclick="goToSlide(event, this)">
+                    <span class="dot active" data-index="0"></span>
+                    <span class="dot" data-index="1"></span>
+                    <span class="dot" data-index="2"></span>
+                    <span class="dot" data-index="3"></span>
+                </div>
+                <button class="wishlist-btn" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
+            </div>
+            <div class="product-info">
+                <div class="product-title">55" 4K QLED Smart Google TV</div>
+                <p class="product-description">LED-GQ5521: QLED Technology, 4K UHD, Dolby Audio, Premium Build Quality</p>
+                <ul class="spec-list">
+                    <li><i class="fa fa-tv"></i> 3840×2160 UHD, 60Hz</li>
+                    <li><i class="fa fa-volume-up"></i> 30W Dolby Speakers</li>
+                    <li><i class="fa fa-wifi"></i> Dual‑band Wi‑Fi</li>
+                    <li><i class="fa fa-plug"></i> 3×HDMI 2.1, 2×USB</li>
+                </ul>
+                <div class="cta-row">
+                    <span class="price">₹38,999</span>
+                    <span class="min-order"><i class="fa fa-box"></i> MOQ: 1 unit</span>
+                    <button class="add-to-cart">Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Budget</h2>
+    <div class="products-grid">
+        <div class="product-card" data-id="intex-tv-32-hd">
+            <div class="product-image">
+                <div class="image-slider">
+                    <div class="slider-image active">
+                        <img src="/images/INTEX/tv/Intex 32 HD Smart Google TV  LED-SGQV3208/1.webp" alt="32 inch HD Ready Smart TV">
+                    </div>
+                    <div class="slider-image">
+                        <img src="/images/INTEX/tv/Intex 32 HD Smart Google TV  LED-SGQV3208/2.webp" alt="32 inch HD Ready Smart TV">
+                    </div>
+                    <div class="slider-image">
+                        <img src="/images/INTEX/tv/Intex 32 HD Smart Google TV  LED-SGQV3208/3.webp" alt="32 inch HD Ready Smart TV">
+                    </div>
+                </div>
+                <button class="slider-nav prev" onclick="changeSlide(this, -1)">‹</button>
+                <button class="slider-nav next" onclick="changeSlide(this, 1)">›</button>
+                <div class="slider-dots" onclick="goToSlide(event, this)">
+                    <span class="dot active" data-index="0"></span>
+                    <span class="dot" data-index="1"></span>
+                    <span class="dot" data-index="2"></span>
+                </div>
+                <button class="wishlist-btn" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
+            </div>
+            <div class="product-info">
+                <div class="product-title">32" HD Ready Smart Google TV</div>
+                <p class="product-description">LED-SGQV3208: Google TV OS, HD Ready Panel, Built-in Apps, Dual Speakers</p>
+                <ul class="spec-list">
+                    <li><i class="fa fa-tv"></i> 1366×768, HD Ready</li>
+                    <li><i class="fa fa-plug"></i> 2×HDMI, 1×USB</li>
+                    <li><i class="fa fa-wifi"></i> Wi‑Fi Connectivity</li>
+                    <li><i class="fa fa-microchip"></i> 1GB/8GB</li>
+                </ul>
+                <div class="cta-row">
+                    <span class="price">₹9,999</span>
+                    <span class="min-order"><i class="fa fa-box"></i> MOQ: 3 units</span>
+                    <button class="add-to-cart">Order</button>
+                </div>
+            </div>
+        </div>
+        <div class="product-card" data-id="intex-tv-55-4k-uhd">
+            <div class="product-image">
+                <div class="image-slider">
+                    <div class="slider-image active">
+                        <img src="/images/INTEX/tv/Intex LED-GQ5531 (55-Inch) 4K Ultra HD Smart Google TV/1.webp" alt="55 inch 4K Ultra HD TV">
+                    </div>
+                    <div class="slider-image">
+                        <img src="/images/INTEX/tv/Intex LED-GQ5531 (55-Inch) 4K Ultra HD Smart Google TV/2.webp" alt="55 inch 4K Ultra HD TV">
+                    </div>
+                    <div class="slider-image">
+                        <img src="/images/INTEX/tv/Intex LED-GQ5531 (55-Inch) 4K Ultra HD Smart Google TV/3.webp" alt="55 inch 4K Ultra HD TV">
+                    </div>
+                    <div class="slider-image">
+                        <img src="/images/INTEX/tv/Intex LED-GQ5531 (55-Inch) 4K Ultra HD Smart Google TV/4.webp" alt="55 inch 4K Ultra HD TV">
+                    </div>
+                </div>
+                <button class="slider-nav prev" onclick="changeSlide(this, -1)">‹</button>
+                <button class="slider-nav next" onclick="changeSlide(this, 1)">›</button>
+                <div class="slider-dots" onclick="goToSlide(event, this)">
+                    <span class="dot active" data-index="0"></span>
+                    <span class="dot" data-index="1"></span>
+                    <span class="dot" data-index="2"></span>
+                    <span class="dot" data-index="3"></span>
+                </div>
+                <button class="wishlist-btn" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
+            </div>
+            <div class="product-info">
+                <div class="product-title">55" 4K Ultra HD Smart Google TV</div>
+                <p class="product-description">LED-GQ5531: 4K Resolution, HDR Support, Voice Control, Premium Connectivity</p>
+                <ul class="spec-list">
+                    <li><i class="fa fa-tv"></i> 3840×1080 4K Ultra HD</li>
+                    <li><i class="fa fa-volume-up"></i> 20W Dual Speakers</li>
+                    <li><i class="fa fa-wifi"></i> Wi‑Fi 5GHz, Screen Mirroring</li>
+                    <li><i class="fa fa-plug"></i> 3×HDMI, 2×USB</li>
+                </ul>
+                <div class="cta-row">
+                    <span class="price">₹33,499</span>
+                    <span class="min-order"><i class="fa fa-box"></i> MOQ: 1 unit</span>
+                    <button class="add-to-cart">Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Premium</h2>
+    <div class="products-grid">
+        <div class="product-card" data-id="intex-tv-65-4k">
+            <div class="product-image">
+                <div class="image-slider">
+                    <div class="slider-image active">
+                        <img src="/images/INTEX/tv/Intex LED-GQ6511/1.webp" alt="Premium 4K TV">
+                    </div>
+                    <div class="slider-image">
+                        <img src="/images/INTEX/tv/Intex LED-GQ6511/2.webp" alt="Premium 4K TV">
+                    </div>
+                    <div class="slider-image">
+                        <img src="/images/INTEX/tv/Intex LED-GQ6511/3.webp" alt="Premium 4K TV">
+                    </div>
+                    <div class="slider-image">
+                        <img src="/images/INTEX/tv/Intex LED-GQ6511/4.webp" alt="Premium 4K TV">
+                    </div>
+                </div>
+                <button class="slider-nav prev" onclick="changeSlide(this, -1)">‹</button>
+                <button class="slider-nav next" onclick="changeSlide(this, 1)">›</button>
+                <div class="slider-dots" onclick="goToSlide(event, this)">
+                    <span class="dot active" data-index="0"></span>
+                    <span class="dot" data-index="1"></span>
+                    <span class="dot" data-index="2"></span>
+                    <span class="dot" data-index="3"></span>
+                </div>
+                <button class="wishlist-btn" title="Add to Wishlist"><i class="fa fa-heart"></i></button>
+            </div>
+            <div class="product-info">
+                <div class="product-title">Premium 4K Smart Google TV</div>
+                <p class="product-description">LED-GQ6511: True 4K Experience, Dolby Audio, Premium Build, Latest Google TV OS</p>
+                <ul class="spec-list">
+                    <li><i class="fa fa-tv"></i> 4K UHD 3840×2160, 60Hz</li>
+                    <li><i class="fa fa-microphone"></i> Voice Control Ready, AI Features</li>
+                    <li><i class="fa fa-wifi"></i> Dual‑band Wi‑Fi 5GHz, Bluetooth 5.0</li>
+                    <li><i class="fa fa-plug"></i> 3×HDMI 2.1, 2×USB 3.0</li>
+                </ul>
+                <div class="cta-row">
+                    <span class="price">₹42,999</span>
+                    <span class="min-order"><i class="fa fa-box"></i> MOQ: 1 unit</span>
+                    <button class="add-to-cart">Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Handle missing images
+        document.querySelectorAll('.slider-image img').forEach(img => {
+            img.addEventListener('error', function() {
+                this.classList.add('image-error');
+                const sliderImage = this.closest('.slider-image');
+                sliderImage.classList.add('image-missing');
+                
+                // Add no image text if not already present
+                if (!sliderImage.querySelector('.no-image-text')) {
+                    const textDiv = document.createElement('div');
+                    textDiv.className = 'no-image-text';
+                    textDiv.textContent = 'Image Not Available';
+                    sliderImage.appendChild(textDiv);
+                }
+            });
+        });
+
+        // Image Slider Functions
+        function changeSlide(button, direction) {
+            const sliderContainer = button.closest('.product-image');
+            const slider = sliderContainer.querySelector('.image-slider');
+            const images = slider.querySelectorAll('.slider-image');
+            const dots = sliderContainer.querySelectorAll('.dot');
+            
+            let currentIndex = Array.from(images).findIndex(img => img.classList.contains('active'));
+            let newIndex = (currentIndex + direction + images.length) % images.length;
+            
+            updateSlider(images, dots, newIndex);
+        }
+        
+        function goToSlide(event, dotsContainer) {
+            if (event.target.classList.contains('dot')) {
+                const index = parseInt(event.target.getAttribute('data-index'));
+                const sliderContainer = dotsContainer.parentElement;
+                const slider = sliderContainer.querySelector('.image-slider');
+                const images = slider.querySelectorAll('.slider-image');
+                const dots = sliderContainer.querySelectorAll('.dot');
+                
+                updateSlider(images, dots, index);
+            }
+        }
+        
+        function updateSlider(images, dots, newIndex) {
+            images.forEach(img => img.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            images[newIndex].classList.add('active');
+            dots[newIndex].classList.add('active');
+        }
+
+        // Wishlist Feature (shared localStorage)
+        document.querySelectorAll('.wishlist-btn').forEach(btn => {
+            const card = btn.closest('.product-card');
+            const id = card.getAttribute('data-id');
+            if(JSON.parse(localStorage.getItem('wishlist')||'[]').includes(id)) {
+                btn.classList.add('active');
+            }
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                let wishlist = JSON.parse(localStorage.getItem('wishlist')||'[]');
+                if(wishlist.includes(id)) {
+                    wishlist = wishlist.filter(x=>x!==id);
+                    btn.classList.remove('active');
+                } else {
+                    wishlist.push(id);
+                    btn.classList.add('active');
+                }
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            });
+        });
+        // Order CTA
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = btn.closest('.product-card');
+                const title = card.querySelector('.product-title').innerText;
+                alert(`Requested order for ${title}. Our team will contact you!`);
+            });
+        });
+    </script>
+</body>
+</html>

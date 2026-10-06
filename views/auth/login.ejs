@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - KAMLAS</title>
+    <title>Login - Kailash Electronics</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="/javascripts/theme.js"></script>
     <style>
         :root {
             /* Light Theme Colors */
@@ -49,6 +51,13 @@
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-accent);
         }
 
         /* Animated Background Elements */
@@ -545,7 +554,7 @@
         }
     </style>
 </head>
-<body>
+<body class="themeable-page">
     <!-- Animated Background Elements -->
     <div class="bg-elements">
         <div class="floating-appliance appliance-1">
@@ -581,7 +590,7 @@
         </button>
         
         <div class="login-header">
-            <div class="logo">KAMLAS</div>
+            <div class="logo brand-name">Kailash Electronics</div>
             <p class="subtitle">Welcome back! Please sign in to your account</p>
         </div>
 
@@ -664,55 +673,8 @@
         </div>
     </div>
 
-     <script>
-         // Theme Management
-         class ThemeManager {
-             constructor() {
-                 this.currentTheme = localStorage.getItem('theme') || 'light';
-                 this.init();
-             }
-
-             init() {
-                 this.applyTheme(this.currentTheme);
-                 this.setupEventListeners();
-             }
-
-             applyTheme(theme) {
-                 document.documentElement.setAttribute('data-theme', theme);
-                 this.updateThemeToggle(theme);
-                 localStorage.setItem('theme', theme);
-             }
-
-             updateThemeToggle(theme) {
-                 const themeIcon = document.getElementById('themeIcon');
-                 const themeText = document.getElementById('themeText');
-                 
-                 if (theme === 'dark') {
-                     themeIcon.className = 'fas fa-sun';
-                     themeText.textContent = 'Light';
-                 } else {
-                     themeIcon.className = 'fas fa-moon';
-                     themeText.textContent = 'Dark';
-                 }
-             }
-
-             toggleTheme() {
-                 this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
-                 this.applyTheme(this.currentTheme);
-             }
-
-             setupEventListeners() {
-                 const themeToggle = document.getElementById('themeToggle');
-                 themeToggle.addEventListener('click', () => this.toggleTheme());
-             }
-         }
-
-         // Initialize theme manager when DOM is loaded
-         document.addEventListener('DOMContentLoaded', () => {
-             new ThemeManager();
-         });
-
-         // Form submission with loading animation
+    <script>
+        // Form submission with loading animation
          document.getElementById('loginForm').addEventListener('submit', function(e) {
              const submitBtn = document.getElementById('submitBtn');
              submitBtn.classList.add('loading');
@@ -816,10 +778,10 @@
                  } else {
                      alert(data.message);
                  }
-             } catch (error) {
-                 console.error('Error:', error);
-                 alert('Something went wrong');
-             }
+            } catch (error) {
+                console.error(error && error.message ? error.message : error);
+                alert('Something went wrong');
+            }
          }
 
          async function verifyOTP(email, otp, type) {
@@ -840,10 +802,10 @@
                  } else {
                      alert(data.message);
                  }
-             } catch (error) {
-                 console.error('Error:', error);
-                 alert('Something went wrong');
-             }
+            } catch (error) {
+                console.error(error && error.message ? error.message : error);
+                alert('Something went wrong');
+            }
          }
 
          function startOTPTimer() {
